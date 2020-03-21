@@ -89,9 +89,9 @@ sap.ui.require([
 		xhr.onload = function () {
 			var users = JSON.parse(xhr.responseText);
 			if (xhr.readyState == 4 && xhr.status == "200") {
-				console.table(users);
+				console.log("Success!");
 			} else {
-				console.error(users);
+				console.log("Error!");
 			}
 		}
 		xhr.send(json);
