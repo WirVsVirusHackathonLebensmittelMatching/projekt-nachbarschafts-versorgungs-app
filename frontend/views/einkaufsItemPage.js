@@ -7,6 +7,7 @@ sap.ui.require([
   "sap/m/Title",
   "sap/m/Label",
   "sap/m/Button",
+  "sap/m/OverflowToolbar",
   "sap/m/StandardListItem",
   "sap/m/ObjectAttribute",
   "sap/m/ObjectStatus",
@@ -22,6 +23,7 @@ sap.ui.require([
   Title,
   Label,
   Button,
+  OverflowToolbar,
   StandardListItem,
   ObjectAttribute,
   ObjectStatus,
@@ -59,19 +61,33 @@ sap.ui.require([
     ]
   });
 
+  var iconFormatter = function (bChecked) {
+    return bChecked ? "sap-icon://accept" : "sap-icon://circle-task";
+  };
+
   var itemFactory = function (sId) {
     return new StandardListItem({
       id: sId,
-      unread: "{checked}",
       title: "{itemTitle}",
       counter: "{itemCount}",
+      type: "Active",
+      iconInset: false,
+      icon: {
+        path: "checked",
+        formatter: iconFormatter
+      },
       description: "{itemComment}"
     });
   };
 
   var onItemPress = function (oEvent) {
-    debugger;
-    oEvent.getSource();
+    var oItem = oEvent.getParameter("listItem");
+        oContext = oItem.getBindingContext(),
+        oModel = oContext.getModel(),
+        sPath = oContext.getPath(),
+        bChecked = oModel.getProperty(sPath + "/checked");
+
+    oModel.setProperty(sPath + "/checked", !bChecked);
   }
 
   return new Page({
@@ -101,14 +117,17 @@ sap.ui.require([
             text: "Header Title On Phone"
           }),
           navigationActions: [
-            new Button ({
-              icon: "sap-icon://map"
+            new Button({
+              icon: "sap-icon://map",
+              tooltip: "Adresse"
             }),
-            new Button ({
-              icon: "sap-icon://call"
+            new Button({
+              icon: "sap-icon://call",
+              tooltip: "Anrufen"
             }),
-            new Button ({
-              icon: "sap-icon://comment"
+            new Button({
+              icon: "sap-icon://comment",
+              tooltip: "Chat"
             })
           ]
         }),
@@ -147,6 +166,7 @@ sap.ui.require([
             })
         }),
         content: [
+          new OverflowToolbar(),
           new List({
             id: "einkaufsListe",
             itemPress: onItemPress,
