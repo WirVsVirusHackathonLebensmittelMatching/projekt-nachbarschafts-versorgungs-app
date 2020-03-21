@@ -21,6 +21,7 @@ sap.ui.require([
       oVornameInput.setVisible(true);
       oNachnameInput.setVisible(true);
       oPasswordConfirmInput.setVisible(true);
+	  oPlzInput.setVisible(true);
     } else {
       var bValid = true;
 
@@ -46,6 +47,14 @@ sap.ui.require([
         oEmailInput.setValueStateText("Bitte gebe Sie Ihre Email Adresse ein.");
       } else {
         oEmailInput.setValueState("None");
+      }
+
+      if (oPlzInput.getValue().length != 5 && oPlzInput.getValue().isInteger != true) {
+        bValid = false;
+        oPlzInput.setValueState("Error");
+        oPlzInput.setValueStateText("Bitte geben eine gültige Postleitzahl ein.");
+      } else {
+        oPlzInput.setValueState("None");
       }
 
       if (oPasswordInput.getValue().length < 6) {
@@ -127,6 +136,14 @@ sap.ui.require([
     type: library.InputType.Email,
     width: "18rem"
   });
+  
+  var oPlzInput = new Input({
+    id: "plzInput",
+    maxLength: 5,
+    placeholder: "Postleitzahl",
+    visible: false,
+    width: "18rem"
+  });
 
   var oPasswordInput = new Input({
     id: "passwordInput",
@@ -171,6 +188,7 @@ sap.ui.require([
           oVornameInput,
           oNachnameInput,
           oEmailInput,
+		  oPlzInput,
           oPasswordInput,
           oPasswordConfirmInput,
           new HBox({
