@@ -18,8 +18,9 @@ sap.ui.require([
 
   const handleSubmitShoppingListPress = function () {
     console.log(oModel.getProperty("/products"));
-	console.log("Premium: "+sap.ui.getCore().byId("buyPremiumItem").getSelected());
+    console.log("Premium: " + sap.ui.getCore().byId("buyPremiumItem").getSelected());
     MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
+    $(".sapMMessageToast").addClass("sapMMessageToastSuccess ");
     window.history.back();
   };
 
@@ -54,14 +55,14 @@ sap.ui.require([
     icon: "sap-icon://add-product",
     press: handleAddItemPress
   });
-  
+
   const buyPremiumItemButton = new CheckBox({
-	id: "buyPremiumItem",
+    id: "buyPremiumItem",
     text: "Premium Produkte erwünscht",
   });
-  
+
   const latestDeliveryDate = new DateTimePicker({
-	id: "latestDeliveryDate",
+    id: "latestDeliveryDate",
   });
 
   const submitShoppingListButton = new Button({
@@ -85,8 +86,8 @@ sap.ui.require([
         items: [
           itemList,
           addItemButton,
-		  buyPremiumItemButton,
-		  latestDeliveryDate,
+          buyPremiumItemButton,
+          latestDeliveryDate,
           submitShoppingListButton,
         ]
       })
