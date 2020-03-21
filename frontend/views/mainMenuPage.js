@@ -29,6 +29,10 @@ sap.ui.require([
   const handleClickEducationButton = function () {
     window.location.hash = "#Aufklaeung";
   };
+  
+  const handleClickSettingsButton = function () {
+    window.location.hash = "#Settings";
+  };
 
   const createShoppingListButton = createMenuButton({
     id: "createShoppingListButton",
@@ -53,6 +57,12 @@ sap.ui.require([
     text: "Aufklärung",
     press: handleClickEducationButton
   });
+  
+  const viewSettingsButton = createMenuButton({
+    id: "viewSettingsButton",
+    text: "Einstellungen",
+    press: handleClickSettingsButton
+  });
 
   return new Page({
     id: "mainMenuPage",
@@ -70,6 +80,7 @@ sap.ui.require([
           viewShoppingListsButton,
           viewMyShoppingListsButton,
           viewEducationButton,
+		  viewSettingsButton
         ]
       })
     ]

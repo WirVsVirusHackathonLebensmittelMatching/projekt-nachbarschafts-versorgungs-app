@@ -10,7 +10,8 @@ sap.ui.getCore().attachInit(function () {
         sap.ui.getCore().byId("loginPage"),
         sap.ui.getCore().byId("overviewPage"),
         sap.ui.getCore().byId("mainMenuPage"),
-        sap.ui.getCore().byId("createListPage")
+        sap.ui.getCore().byId("createListPage"),
+        sap.ui.getCore().byId("settingsPage")
       ]
     });
 
@@ -32,6 +33,9 @@ sap.ui.getCore().attachInit(function () {
             break;
           case "#Aufklaeung":
             oApp.to("educationPage");
+            break;
+		  case "#Settings":
+            oApp.to("settingsPage");
             break;
           default:
             oApp.to("loginPage");
