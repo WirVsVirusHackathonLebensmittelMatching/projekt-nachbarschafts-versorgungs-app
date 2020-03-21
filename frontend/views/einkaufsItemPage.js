@@ -7,7 +7,11 @@ sap.ui.require([
   "sap/m/Title",
   "sap/m/Label",
   "sap/m/Button",
+  "sap/m/VBox",
   "sap/m/OverflowToolbar",
+  "sap/m/ToolbarSpacer",
+  "sap/m/MessageBox",
+  "sap/m/MessageToast",
   "sap/m/StandardListItem",
   "sap/m/ObjectAttribute",
   "sap/m/ObjectStatus",
@@ -23,7 +27,11 @@ sap.ui.require([
   Title,
   Label,
   Button,
+  VBox,
   OverflowToolbar,
+  ToolbarSpacer,
+  MessageBox,
+  MessageToast,
   StandardListItem,
   ObjectAttribute,
   ObjectStatus,
@@ -88,7 +96,57 @@ sap.ui.require([
         bChecked = oModel.getProperty(sPath + "/checked");
 
     oModel.setProperty(sPath + "/checked", !bChecked);
+
+    aItems = oModel.getProperty("/items").filter(function (oItem) {
+      return !oItem.checked;
+    });
+
+    sap.ui.getCore().byId("confirmBuying").setType(aItems.length ? "Default" : "Emphasized");
   }
+
+  var formatterConfirmBuying = function (aItems) {
+    aItems = aItems.filter(function (oItem) {
+      return !oItem.checked;
+    });
+
+    return aItems.length ? "Default" : "Emphasized";
+  }
+
+  var onEndShoppingPress = function () {
+    var oPage = sap.ui.getCore().byId("einkaufsItemPage"),
+      aItems = oPage.getModel().getProperty("/items");
+
+    var aCheckedItems = aItems.filter(function (oItem) {
+      return !oItem.checked;
+    });
+
+    if (aCheckedItems.length) {
+      MessageBox.show("Einige der Produkte sind noch nicht abgehakt, möchten Sie troztdem den Einkauf abschließen?", {
+        icon: MessageBox.Icon.WARNING,
+        title: "Warnung",
+        actions: [MessageBox.Action.YES, MessageBox.Action.ABORT],
+        emphasizedAction: MessageBox.Action.YES,
+        onClose: function (oAction) {
+          if (oAction === MessageBox.Action.YES) {
+            sap.ui.getCore().byId("einkaufsListe").setBlocked(true);
+            sap.ui.getCore().byId("confirmBuying").setVisible(false);
+          }
+        }
+      });
+    } else {
+      sap.ui.getCore().byId("einkaufsListe").setBlocked(true);
+      sap.ui.getCore().byId("confirmBuying").setVisible(false);
+    }
+  }
+
+  var onDeletePress = function () {
+    MessageToast.show("Die Einkaufsliste wurde gelöscht.");
+    window.history.back();
+  };
+
+  var onEditPress = function () {
+    console.log("Edit pressed!");
+  };
 
   return new Page({
     id: "einkaufsItemPage",
@@ -96,7 +154,7 @@ sap.ui.require([
     titleAlignment: "Center",
     showNavButton: true,
     navButtonPress: function () {
-      window.location.hash = "#Menue";
+      window.history.back();
     },
     content: [
       new DynamicPage({
@@ -165,17 +223,43 @@ sap.ui.require([
               ]
             })
         }),
-        content: [
-          new OverflowToolbar(),
-          new List({
-            id: "einkaufsListe",
-            itemPress: onItemPress,
-            items: {
-              path: "/items",
-              factory: itemFactory
-            }
-          })
-        ]
+        content: new VBox ({
+          items: [
+            new OverflowToolbar({
+              design: "Solid",
+              content: [
+                new ToolbarSpacer(),
+                new Button({
+                  id: "editList",
+                  text: "Ändern",
+                  press: onEditPress
+                }),
+                new Button({
+                  id: "deleteList",
+                  text: "Löschen",
+                  press: onDeletePress
+                }),
+                new Button({
+                  id: "confirmBuying",
+                  text: "Einkauf abschließen",
+                  type: {
+                    path: "/items",
+                    formatter: formatterConfirmBuying
+                  },
+                  press: onEndShoppingPress
+                })
+              ]
+            }),
+            new List({
+              id: "einkaufsListe",
+              itemPress: onItemPress,
+              items: {
+                path: "/items",
+                factory: itemFactory
+              }
+            })
+          ]
+        })
       })
     ]
   }).setModel(oModel)

@@ -19,7 +19,7 @@ sap.ui.require([
     console.log(oModel.getProperty("/products"));
 	console.log("Premium: "+sap.ui.getCore().byId("buyPremiumItem").getSelected());
     MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
-    window.location.hash = "#Menue";
+    window.history.back();
   };
 
   const handleAddItemPress = function () {
@@ -71,7 +71,7 @@ sap.ui.require([
     titleAlignment: "Center",
     showNavButton: true,
     navButtonPress: function () {
-      window.location.hash = "#Menue";
+      window.history.back();
     },
     content: [
       new VBox({

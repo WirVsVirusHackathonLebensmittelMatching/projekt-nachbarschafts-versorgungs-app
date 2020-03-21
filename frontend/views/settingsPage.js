@@ -149,7 +149,7 @@ sap.ui.require([
     title: "Einstellungen",
 	showNavButton: true,
     navButtonPress: function () {
-      window.location.hash = "#Menue";
+      window.history.back();
     },
     titleAlignment: "Center",
     content: [
