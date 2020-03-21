@@ -1,12 +1,13 @@
 sap.ui.require([
   "sap/m/Button",
+  "sap/m/RadioButton",
   "sap/m/Input",
   "sap/m/VBox",
   "sap/m/HBox",
   "sap/m/library",
   "sap/m/Page",
   "sap/m/MessageToast",
-], function (Button, Input, VBox, HBox, library, Page, MessageToast,) {
+], function (Button, RadioButton, Input, VBox, HBox, library, Page, MessageToast) {
 
   var handleProfileEditPress = function () {
     var oVornameEditInput = sap.ui.getCore().byId("vornameEditInput"),
@@ -121,7 +122,21 @@ sap.ui.require([
     type: "Password",
     width: "18rem"
   });
-
+  
+  var oSellerEditInput = new RadioButton({
+	id: "sellerEditInput",
+	text: "Lieferant",
+	groupName: "buyerSellerRadioButton",
+    width: "9rem"
+  });
+  
+  var oBuyerEditInput = new RadioButton({
+	id: "buyerEditInput",
+	text: "Besteller",
+	groupName: "buyerSellerRadioButton",
+    width: "9rem"
+  });
+  
   var oEditButton = new Button({
     id: "editProfileButton",
     text: "Speichern",
@@ -139,7 +154,7 @@ sap.ui.require([
     titleAlignment: "Center",
     content: [
       new VBox({
-        justifyContent: "Center",
+        justifyContent: "Start",
         alignItems: "Center",
         items: [
           oVornameEditInput,
@@ -148,6 +163,8 @@ sap.ui.require([
 		  oPlzEditInput,
           oPasswordEditInput,
           opasswordConfirmEditInput,
+		  //oSellerEditInput,
+		  //oBuyerEditInput,
           oEditButton
         ]
       }).addStyleClass("sapUiMediumMarginTop")
