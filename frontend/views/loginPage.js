@@ -129,10 +129,8 @@ sap.ui.require([
 		var url = "http://localhost:8080/user-service/v1/users";
 
 		var data = {};
-		data.firstName = oVornameInput.getValue();
-		data.lastName  = oNachnameInput.getValue();
-		data.password = oPasswordInput.getValue();
 		data.mailAddress  = oEmailInput.getValue();
+		data.password = oPasswordInput.getValue();
 		var json = JSON.stringify(data);
 
 		var xhr = new XMLHttpRequest();
