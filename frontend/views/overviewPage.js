@@ -13,6 +13,7 @@ sap.ui.require([
   "sap/m/ColumnListItem",
   "sap/m/ViewSettingsDialog",
   "sap/m/ViewSettingsItem",
+  "sap/m/ViewSettingsFilterItem",
   "sap/ui/core/Icon",
   "sap/ui/model/json/JSONModel",
   "sap/ui/model/Filter",
@@ -33,6 +34,7 @@ sap.ui.require([
   ColumnListItem,
   ViewSettingsDialog,
   ViewSettingsItem,
+  ViewSettingsFilterItem,
   Icon,
   JSONModel,
   Filter,
@@ -40,23 +42,68 @@ sap.ui.require([
   Sorter
 ) {
 
-  var oSearchFilter = null;
+  var oSearchFilter = null,
+    mViewSettingsFilters = null;
 
   var onItemPress = function (oEvent) {
     console.log("Item pressed fired!");
   };
 
-  var onTableUpdate = function (oEvent) {
-    console.log("Table update fired!");
+  var applyCombinedFilters =  function () {
+    var mFilters = mViewSettingsFilters || {},
+        oBinding = sap.ui.getCore().byId("table").getBinding("items"),
+        aCategoryFilters = [],
+        aPropertyFilters = [];
+
+    for (var filter in mFilters) {
+        aPropertyFilters.push(
+            new Filter({
+                filters: mFilters[filter],
+                and: false
+            })
+        );
+    }
+    aCategoryFilters = aCategoryFilters.concat(aPropertyFilters);
+
+    if (oSearchFilter) {
+        aCategoryFilters = aCategoryFilters.concat(oSearchFilter);
+    }
+
+    oBinding.filter(new Filter({
+        filters: aCategoryFilters,
+        and: true
+    }));
   };
 
   var onSearch = function (oEvent) {
-    console.log("Search fired!");
+    var sSearchValue = oEvent.getSource().getValue(),
+      aPropertiesToFilter = [
+        "type",
+        "street",
+        "state",
+        "city"
+      ];
+      aFilters = aPropertiesToFilter.map(
+          function (sPropertyToFilter) {
+              return new Filter({
+                  path: sPropertyToFilter,
+                  operator: FilterOperator.Contains,
+                  value1: sSearchValue
+              });
+          }
+      );
+
+    oSearchFilter = new Filter({
+        filters: aFilters,
+        and: false
+    });
+
+    applyCombinedFilters();
   };
 
-  var onAdd = function (oEvent) {
-    window.location.hash = "#ListeErstellen";
-  };
+  // var onAdd = function (oEvent) {
+  //   window.location.hash = "#ListeErstellen";
+  // };
 
   var getSorters = function (mParams) {
     var aSorters = [],
@@ -113,27 +160,8 @@ sap.ui.require([
     oBinding.sort(aSorters);
 
     // apply filters
-    var aCategoryFilters = [],
-      aPropertyFilters = [];
-
-    for (var filter in mFilters) {
-        aPropertyFilters.push(
-            new Filter({
-                filters: mFilters[filter],
-                and: false
-            })
-        );
-    }
-    aCategoryFilters = aCategoryFilters.concat(aPropertyFilters);
-
-    if (oSearchFilter) {
-        aCategoryFilters = aCategoryFilters.concat(oSearchFilter);
-    }
-
-    oBinding.filter(new Filter({
-        filters: aCategoryFilters,
-        and: true
-    }));
+    mViewSettingsFilters = mFilters;
+    applyCombinedFilters();
 
     // update filter bar
     sap.ui.getCore().byId("infoFilterBar").setVisible(!!Object.keys(mFilters).length);
@@ -146,6 +174,15 @@ sap.ui.require([
     if (oViewSettingsDialog) {
       oViewSettingsDialog.open(sAction);
     } else {
+      // var typeFilterFactory = function (sId, oContext) {
+      //   debugger;
+      //   return new ViewSettingsItem({
+      //     id: sId,
+      //     text: "{uniqueValues>key}",
+      //     key: "type___EQ___{uniqueValues>key}"
+      //   });
+      // };
+
       oViewSettingsDialog = new ViewSettingsDialog({
         id: "viewSettingsDialog",
         sortDescending: true,
@@ -158,8 +195,48 @@ sap.ui.require([
           new ViewSettingsItem({ id: "CitySort", text: "Stadt", key: "city" }),
           new ViewSettingsItem({ id: "PriceSort", text: "Preis", key: "price" }),
           new ViewSettingsItem({ id: "CreatedAtSort", text: "Erstellt am", key: "createdAt" })
+        ],
+        // filterItems: [
+        //   new ViewSettingsFilterItem({ id: "TypeFilter", text: "Einkaufstyp", key: "type", items: { path: "uniqueValues>/type", factory: typeFilterFactory, key: "id" } })
+        // ],
+        groupItems: [
+          new ViewSettingsItem({ id: "TypeGroup", text: "Einkaufstyp", key: "type" }),
+          new ViewSettingsItem({ id: "StreetGroup", text: "Straße", key: "street" }),
+          new ViewSettingsItem({ id: "StateGroup", text: "Bundesland", key: "state" }),
+          new ViewSettingsItem({ id: "PLZGroup", text: "Postleitzahl", key: "plz" }),
+          new ViewSettingsItem({ id: "CityGroup", text: "Stadt", key: "city" }),
+          new ViewSettingsItem({ id: "PriceGroup", text: "Preis", key: "price" }),
+          new ViewSettingsItem({ id: "CreatedAtGroup", text: "Erstellt am", key: "createdAt" })
+
         ]
       });
+
+      // var aItems = sap.ui.getCore().byId("table").getModel().getProperty("/items");
+
+      // var removeDuplicates = function (aItems, sPropertyName) {
+      //   var mKeys = {},
+      //     aKeys = [];
+
+      //     aItems.forEach(function (oItem) {
+      //     var sName = oItem[sPropertyName];
+      //     if (!mKeys[sName]) {
+      //         mKeys[sName] = true;
+      //         aKeys.push({ key: sName });
+      //     }
+      //   });
+
+      //   return aKeys;
+      // };
+
+      // oViewSettingsDialog.setModel(new JSONModel({
+      //   type: removeDuplicates(aItems, "type"),
+      //   street: removeDuplicates(aItems, "street"),
+      //   state: removeDuplicates(aItems, "state"),
+      //   plz: removeDuplicates(aItems, "plz"),
+      //   city: removeDuplicates(aItems, "city"),
+      //   price: removeDuplicates(aItems, "price"),
+      //   createdAt: removeDuplicates(aItems, "createdAt")
+      // }, "uniqueValues"));
 
       oViewSettingsDialog.open(sAction);
     }
@@ -176,7 +253,7 @@ sap.ui.require([
       {
         type: mTypes.Lebensmitteleinkauf,
         street: "Bäckerstraße",
-        state: "RheinLand-Pfalz",
+        state: "Rheinland-Pfalz",
         plz: 55128,
         city: "Mainz",
         price: "15,00 €",
@@ -216,7 +293,8 @@ sap.ui.require([
     var oItemData = oContext.getModel().getProperty(oContext.getPath());
 
     var sType = oItemData.type,
-      sIconUrl = "sap-icon://activities";
+      sIconUrl = "sap-icon://activities"
+      sPLZCity = oItemData.plz + " / " + oItemData.city;
 
     switch (oItemData.type) {
         case mTypes.Lebensmitteleinkauf:
@@ -230,6 +308,7 @@ sap.ui.require([
     }
 
     return new ColumnListItem ({
+      id: sId,
       type: "Navigation",
       cells: [
         new Icon({
@@ -241,7 +320,7 @@ sap.ui.require([
         }),
         new ObjectIdentifier({
           title: "{state}",
-          text: "{plz}" + " / "  + "{city}"
+          text: sPLZCity
         }),
         new ObjectIdentifier({
           title: "{price}",
@@ -263,7 +342,6 @@ sap.ui.require([
         id: "table",
         busy: "{/busy}",
         itemPress: onItemPress,
-        updateFinished: onTableUpdate,
         sticky: [library.Sticky.ColumnHeaders],
         noDataText: "Es wurden keine Einkaufslisten gefunden.",
         headerToolbar: new OverflowToolbar({
@@ -283,12 +361,12 @@ sap.ui.require([
                 moveToOverflow: false
               })
             }),
-            new Button({
-              id: "addButton",
-              text: "Einkaufsliste erstellen",
-              type: "Transparent",
-              press: onAdd
-            }),
+            // new Button({
+            //   id: "addButton",
+            //   text: "Einkaufsliste erstellen",
+            //   type: "Transparent",
+            //   press: onAdd
+            // }),
             new Button({
               id: "sortButton",
               tooltip: "Sortieren",
@@ -296,13 +374,13 @@ sap.ui.require([
               type: "Transparent",
               press: showViewSettingsDialog.bind(this, "sort")
             }),
-            new Button({
-              id: "filterButton",
-              tooltip: "Filteren",
-              icon: "sap-icon://filter",
-              type: "Transparent",
-              press: showViewSettingsDialog.bind(this, "filter")
-            }),
+            // new Button({
+            //   id: "filterButton",
+            //   tooltip: "Filteren",
+            //   icon: "sap-icon://filter",
+            //   type: "Transparent",
+            //   press: showViewSettingsDialog.bind(this, "filter")
+            // }),
             new Button({
               id: "groupButton",
               tooltip: "Gruppieren",
@@ -337,7 +415,7 @@ sap.ui.require([
           new Column({
             id: "columnPLZ",
             header: new ObjectIdentifier({
-              title: "BundesLand",
+              title: "Bundesland",
               text: "PLZ / Stadt"
             }),
           }),
