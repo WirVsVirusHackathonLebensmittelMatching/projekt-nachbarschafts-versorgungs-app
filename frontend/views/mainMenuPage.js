@@ -9,7 +9,7 @@ sap.ui.require([
       id: id,
       text: text,
       type: "Neutral",
-      width: "20rem",
+      width: "18rem",
       press: press
     }).addStyleClass("sapUiSmallMarginTop");
   };
@@ -57,6 +57,10 @@ sap.ui.require([
   return new Page({
     id: "mainMenuPage",
     title: "Übersichtsmenü",
+    showNavButton: true,
+    navButtonPress: function () {
+      window.history.back();
+    },
     content: [
       new VBox({
         justifyContent: "Center",
