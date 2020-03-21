@@ -100,6 +100,7 @@ sap.ui.require([
         oVornameInput.setVisible(false);
         oNachnameInput.setVisible(false);
         oPasswordConfirmInput.setVisible(false);
+		oPlzInput.setVisible(false);
       }
     }
   };
