@@ -2,6 +2,7 @@ sap.ui.require([
   "sap/m/Page",
   "sap/m/Input",
   "sap/m/Button",
+  "sap/m/DateTimePicker",
   "sap/m/CheckBox",
   "sap/m/VBox",
   "sap/m/HBox",
@@ -9,7 +10,7 @@ sap.ui.require([
   "sap/ui/model/json/JSONModel",
   "sap/m/CustomListItem",
   "sap/m/MessageToast",
-], function (Page, Input, Button, CheckBox, VBox, HBox, List, JSONModel, CustomListItem, MessageToast) {
+], function (Page, Input, Button, DateTimePicker, CheckBox, VBox, HBox, List, JSONModel, CustomListItem, MessageToast) {
 
   const oModel = new JSONModel({
     products: []
@@ -58,6 +59,10 @@ sap.ui.require([
 	id: "buyPremiumItem",
     text: "Premium Produkte erwünscht",
   });
+  
+  const latestDeliveryDate = new DateTimePicker({
+	id: "latestDeliveryDate",
+  });
 
   const submitShoppingListButton = new Button({
     text: "Einkaufliste speichern",
@@ -81,6 +86,7 @@ sap.ui.require([
           itemList,
           addItemButton,
 		  buyPremiumItemButton,
+		  latestDeliveryDate,
           submitShoppingListButton,
         ]
       })
