@@ -147,12 +147,17 @@ sap.ui.require([
 				}
 			} else {
 				if (bValid && true) {
-					console.log("Redirect with Login failure");
+					console.log("Wrong Password!");
 					window.location.hash = "#Menue";
 				}
 			}
 		}
 		xhr.send(json);
+		
+		if (bValid && true) {
+			console.log("No connection to Webservice");
+			window.location.hash = "#Menue";
+		}
   }
 
   var oIcon = new Icon({
