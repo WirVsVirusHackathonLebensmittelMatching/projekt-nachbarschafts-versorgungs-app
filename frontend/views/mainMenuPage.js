@@ -4,19 +4,19 @@ sap.ui.require([
 ], function (Page, Button) {
 
   const handleCreateShoppingListPress = function () {
-    sap.ui.getCore().byId("app").to("createListPage");
+    window.location.hash = "#ListeErstellen";
   };
 
   const handleClickShoppingListsButton = function () {
-    sap.ui.getCore().byId("app").to("overviewPage");
+    window.location.hash = "#EinkaufslistenUebersicht";
   };
 
   const handleClickMyShoppingListsButton = function () {
-    sap.ui.getCore().byId("app").to("myListsPage");
+    window.location.hash = "#EinkaufslistenEigene";
   };
 
   const handleClickEducationButton = function () {
-    sap.ui.getCore().byId("app").to("educationPage");
+    window.location.hash = "#Aufklaeung";
   };
 
   const createShoppingListButton = new Button({

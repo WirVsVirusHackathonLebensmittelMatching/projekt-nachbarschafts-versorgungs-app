@@ -94,7 +94,7 @@ sap.ui.require([
       }
 
       if (bValid && true) { // ask backend
-        sap.ui.getCore().byId("app").to("mainMenuPage");
+        window.location.hash = "#Menue";
       }
   }
 

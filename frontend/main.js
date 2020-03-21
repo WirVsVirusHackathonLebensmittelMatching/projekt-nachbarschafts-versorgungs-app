@@ -2,7 +2,6 @@ sap.ui.getCore().attachInit(function () {
   sap.ui.require([
     "sap/m/App"
   ], function (App) {
-
     var oApp = new App({
       id: "app",
       pages: [
@@ -14,5 +13,26 @@ sap.ui.getCore().attachInit(function () {
 
     oApp.placeAt("content");
 
+    window.addEventListener("hashchange", function () {
+      switch (window.location.hash) {
+          case "#Menue":
+            oApp.to("mainMenuPage");
+            break;
+          case "#ListeErstellen":
+            oApp.to("createListPage");
+            break;
+          case "#EinkaufslistenUebersicht":
+            oApp.to("overviewPage");
+            break;
+          case "#EinkaufslistenEigene":
+            oApp.to("myListsPage");
+            break;
+          case "#Aufklaeung":
+            oApp.to("educationPage");
+            break;
+          default:
+            oApp.to("loginPage");
+      }
+    }, false);
   });
 });
