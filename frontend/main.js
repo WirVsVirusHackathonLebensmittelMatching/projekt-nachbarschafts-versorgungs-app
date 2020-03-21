@@ -8,7 +8,8 @@ sap.ui.getCore().attachInit(function () {
       pages: [
         sap.ui.getCore().byId("loginPage"),
         sap.ui.getCore().byId("overviewPage"),
-        sap.ui.getCore().byId("mainMenuPage")
+        sap.ui.getCore().byId("mainMenuPage"),
+        sap.ui.getCore().byId("createListPage")
       ]
     });
 
