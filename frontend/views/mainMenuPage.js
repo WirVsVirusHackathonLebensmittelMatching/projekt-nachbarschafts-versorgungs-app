@@ -1,7 +1,18 @@
 sap.ui.require([
   "sap/m/Page",
   "sap/m/Button",
-], function (Page, Button) {
+  "sap/m/VBox",
+], function (Page, Button, VBox) {
+
+  const createMenuButton = function ({ id, text, press }) {
+    return new Button({
+      id: id,
+      text: text,
+      type: "Neutral",
+      width: "20rem",
+      press: press
+    }).addStyleClass("sapUiSmallMarginTop");
+  };
 
   const handleCreateShoppingListPress = function () {
     window.location.hash = "#ListeErstellen";
@@ -19,31 +30,27 @@ sap.ui.require([
     window.location.hash = "#Aufklaeung";
   };
 
-  const createShoppingListButton = new Button({
+  const createShoppingListButton = createMenuButton({
     id: "createShoppingListButton",
     text: "Eine neue Einkaufliste erstellen",
-    type: "Neutral",
     press: handleCreateShoppingListPress
   });
 
-  const viewShoppingListsButton = new Button({
+  const viewShoppingListsButton = createMenuButton({
     id: "viewShoppingListsButton",
     text: "Offene Einkaufslisten anzeigen",
-    type: "Neutral",
     press: handleClickShoppingListsButton
   });
 
-  const viewMyShoppingListsButton = new Button({
+  const viewMyShoppingListsButton = createMenuButton({
     id: "viewMyShoppingListsButton",
     text: "Meine Einkaufslisten anzeigen",
-    type: "Neutral",
     press: handleClickMyShoppingListsButton
   });
 
-  const viewEducationButton = new Button({
+  const viewEducationButton = createMenuButton({
     id: "viewEducationButton",
     text: "Aufklärung",
-    type: "Neutral",
     press: handleClickEducationButton
   });
 
@@ -51,10 +58,16 @@ sap.ui.require([
     id: "mainMenuPage",
     title: "Übersichtsmenü",
     content: [
-      createShoppingListButton,
-      viewShoppingListsButton,
-      viewMyShoppingListsButton,
-      viewEducationButton,
+      new VBox({
+        justifyContent: "Center",
+        alignItems: "Center",
+        items: [
+          createShoppingListButton,
+          viewShoppingListsButton,
+          viewMyShoppingListsButton,
+          viewEducationButton,
+        ]
+      })
     ]
   });
 });
