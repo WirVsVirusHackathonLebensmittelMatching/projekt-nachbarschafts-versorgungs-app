@@ -11,6 +11,7 @@ sap.ui.require([
   "sap/m/OverflowToolbar",
   "sap/m/ToolbarSpacer",
   "sap/m/MessageBox",
+  "sap/m/MessageToast",
   "sap/m/StandardListItem",
   "sap/m/ObjectAttribute",
   "sap/m/ObjectStatus",
@@ -30,6 +31,7 @@ sap.ui.require([
   OverflowToolbar,
   ToolbarSpacer,
   MessageBox,
+  MessageToast,
   StandardListItem,
   ObjectAttribute,
   ObjectStatus,
@@ -137,6 +139,15 @@ sap.ui.require([
     }
   }
 
+  var onDeletePress = function () {
+    MessageToast.show("Die Einkaufsliste wurde gelöscht.");
+    window.history.back();
+  };
+
+  var onEditPress = function () {
+    console.log("Edit pressed!");
+  };
+
   return new Page({
     id: "einkaufsItemPage",
     title: "EinkaufsItem",
@@ -218,6 +229,16 @@ sap.ui.require([
               design: "Solid",
               content: [
                 new ToolbarSpacer(),
+                new Button({
+                  id: "editList",
+                  text: "Ändern",
+                  press: onEditPress
+                }),
+                new Button({
+                  id: "deleteList",
+                  text: "Löschen",
+                  press: onDeletePress
+                }),
                 new Button({
                   id: "confirmBuying",
                   text: "Einkauf abschließen",

@@ -18,7 +18,7 @@ sap.ui.require([
   const handleSubmitShoppingListPress = function () {
     console.log(oModel.getProperty("/products"));
     MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
-    window.location.hash = "#Menue";
+    window.history.back();
   };
 
   const handleAddItemPress = function () {

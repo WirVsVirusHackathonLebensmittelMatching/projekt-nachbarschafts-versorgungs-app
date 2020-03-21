@@ -7,6 +7,7 @@ sap.ui.require([
   "sap/m/SearchField",
   "sap/m/Button",
   "sap/m/Text",
+  "sap/m/Title",
   "sap/m/Column",
   "sap/m/library",
   "sap/m/ObjectIdentifier",
@@ -28,6 +29,7 @@ sap.ui.require([
   SearchField,
   Button,
   Text,
+  Title,
   Column,
   library,
   ObjectIdentifier,
@@ -341,6 +343,9 @@ sap.ui.require([
       window.history.back();
     },
     content: [
+      new Title({
+        text: "Offene Anfragen"
+      }),
       new Table({
         id: "table",
         busy: "{/busy}",
