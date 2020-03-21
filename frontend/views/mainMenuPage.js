@@ -77,10 +77,6 @@ sap.ui.require([
   return new Page({
     id: "mainMenuPage",
     title: "Übersichtsmenü",
-    showNavButton: true,
-    navButtonPress: function () {
-      window.history.back();
-    },
     content: [
       new VBox({
         justifyContent: "Center",

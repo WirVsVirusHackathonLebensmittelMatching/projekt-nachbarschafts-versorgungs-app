@@ -256,7 +256,7 @@ sap.ui.require([
     title: "Übersicht",
     showNavButton: true,
     navButtonPress: function () {
-      window.history.back();
+      window.location.hash = "#Menue";
     },
     content: [
       new Table({

@@ -27,7 +27,7 @@ sap.ui.require([
     content: [
       new HBox({
         items: [
-          (new Input({ placeholder: "Wieviel?", value: "{itemQuantity}", valueLiveUpdate: true })),
+          (new Input({ placeholder: "Wieviel?", value: "{itemQuantity}", valueLiveUpdate: true, type: "Number" })),
           (new Input({ placeholder: "Was?", value: "{itemName}", valueLiveUpdate: true })),
           (new Input({ placeholder: "Kommentar?", value: "{itemComment}", valueLiveUpdate: true }))
         ]
@@ -58,6 +58,10 @@ sap.ui.require([
   return new Page({
     id: "createListPage",
     title: "Neue Einkaufsliste erstellen",
+	showNavButton: true,
+    navButtonPress: function () {
+      window.location.hash = "#Menue";
+    },
     content: [
       new VBox({
         justifyContent: "Center",

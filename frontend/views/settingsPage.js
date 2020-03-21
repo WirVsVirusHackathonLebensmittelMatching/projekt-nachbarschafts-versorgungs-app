@@ -117,6 +117,10 @@ sap.ui.require([
   return new Page({
     id: "settingsPage",
     title: "Einstellungen",
+	showNavButton: true,
+    navButtonPress: function () {
+      window.location.hash = "#Menue";
+    },
     titleAlignment: "Center",
     content: [
       new VBox({
