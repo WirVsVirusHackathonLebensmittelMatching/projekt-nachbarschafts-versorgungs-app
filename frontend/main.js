@@ -2,6 +2,7 @@ sap.ui.getCore().attachInit(function () {
   sap.ui.require([
     "sap/m/App"
   ], function (App) {
+        window.location.hash = "";
     var oApp = new App({
       id: "app",
       pages: [
