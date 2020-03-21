@@ -6,8 +6,9 @@ sap.ui.require([
   "sap/m/HBox",
   "sap/m/List",
   "sap/ui/model/json/JSONModel",
-  "sap/m/CustomListItem"
-], function (Page, Input, Button, VBox, HBox, List, JSONModel, CustomListItem) {
+  "sap/m/CustomListItem",
+  "sap/m/MessageToast",
+], function (Page, Input, Button, VBox, HBox, List, JSONModel, CustomListItem, MessageToast) {
 
   const oModel = new JSONModel({
     products: []
@@ -15,6 +16,8 @@ sap.ui.require([
 
   const handleSubmitShoppingListPress = function () {
     console.log(oModel.getProperty("/products"));
+    MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
+    window.location.hash = "#Menue";
   };
 
   const handleAddItemPress = function () {
