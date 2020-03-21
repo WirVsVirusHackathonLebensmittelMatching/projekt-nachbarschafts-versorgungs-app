@@ -26,7 +26,7 @@ sap.ui.require([
       if (oVornameInput.getValue().length < 3) {
         bValid = false;
         oVornameInput.setValueState("Error");
-        oVornameInput.setValueStateText("Bitte gebe einen Vornamen ein.");
+        oVornameInput.setValueStateText("Bitte gebe Sie Ihren Vornamen ein.");
       } else {
         oVornameInput.setValueState("None");
       }
@@ -34,7 +34,7 @@ sap.ui.require([
       if (oNachnameInput.getValue().length < 3) {
         bValid = false;
         oNachnameInput.setValueState("Error");
-        oNachnameInput.setValueStateText("Bitte gebe einen Nachnamen ein.");
+        oNachnameInput.setValueStateText("Bitte gebe Sie Ihren Nachnamen ein.");
       } else {
         oNachnameInput.setValueState("None");
       }
@@ -42,7 +42,7 @@ sap.ui.require([
       if (oEmailInput.getValue().length < 3) {
         bValid = false;
         oEmailInput.setValueState("Error");
-        oEmailInput.setValueStateText("Bitte gebe eine Email Adresse ein.");
+        oEmailInput.setValueStateText("Bitte gebe Sie Ihre Email Adresse ein.");
       } else {
         oEmailInput.setValueState("None");
       }
@@ -50,7 +50,7 @@ sap.ui.require([
       if (oPasswordInput.getValue().length < 6) {
         bValid = false;
         oPasswordInput.setValueState("Error");
-        oPasswordInput.setValueStateText("Bitte gebe eine Password ein welches länger als 6 Zeichen ist!");
+        oPasswordInput.setValueStateText("Bitte gebe eine Passwort ein welches länger als 6 Zeichen ist!");
       } else {
         oPasswordInput.setValueState("None");
       }
@@ -58,13 +58,13 @@ sap.ui.require([
       if (oPasswordConfrimInput.getValue() !== oPasswordInput.getValue()) {
         bValid = false;
         oPasswordConfrimInput.setValueState("Error");
-        oPasswordConfrimInput.setValueStateText("Passwörter stimmen nicht überein!");
+        oPasswordConfrimInput.setValueStateText("Die Passwörter müssen übereinstimmen!");
       } else {
         oPasswordInput.setValueState("None");
       }
 
       if (bValid) {
-        MessageToast.show("RegistierungsMail wurde verschickt!");
+        MessageToast.show("Registrierungsmail wurde verschickt!");
         oVornameInput.setVisible(false);
         oNachnameInput.setVisible(false);
         oPasswordConfrimInput.setVisible(false);
@@ -155,6 +155,7 @@ sap.ui.require([
   return new Page({
     id: "loginPage",
     title: "Anmeldung",
+    titleAlignment: "Center",
     content: [
       new VBox({
         justifyContent: "Center",
@@ -166,8 +167,6 @@ sap.ui.require([
           oPasswordInput,
           oPasswordConfirmInput,
           new HBox({
-            // alignContent: "SpaceBetween",
-            // alignItems: "Stretch",
             justifyContent: "SpaceBetween",
             items: [
               oLoginButton,
@@ -176,7 +175,7 @@ sap.ui.require([
             width: "18rem"
           })
         ]
-      })
+      }).addStyleClass("sapUiMediumMarginTop")
     ]
   });
 });
