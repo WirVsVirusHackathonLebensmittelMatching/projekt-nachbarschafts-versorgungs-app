@@ -2,13 +2,14 @@ sap.ui.require([
   "sap/m/Page",
   "sap/m/Input",
   "sap/m/Button",
+  "sap/m/CheckBox",
   "sap/m/VBox",
   "sap/m/HBox",
   "sap/m/List",
   "sap/ui/model/json/JSONModel",
   "sap/m/CustomListItem",
   "sap/m/MessageToast",
-], function (Page, Input, Button, VBox, HBox, List, JSONModel, CustomListItem, MessageToast) {
+], function (Page, Input, Button, CheckBox, VBox, HBox, List, JSONModel, CustomListItem, MessageToast) {
 
   const oModel = new JSONModel({
     products: []
@@ -30,7 +31,7 @@ sap.ui.require([
     content: [
       new HBox({
         items: [
-          (new Input({ placeholder: "Wieviel?", value: "{itemQuantity}", valueLiveUpdate: true, type: "Number" })),
+          (new Input({ placeholder: "Wieviel?", value: "{itemQuantity}", valueLiveUpdate: true })),
           (new Input({ placeholder: "Was?", value: "{itemName}", valueLiveUpdate: true })),
           (new Input({ placeholder: "Kommentar?", value: "{itemComment}", valueLiveUpdate: true }))
         ]
@@ -50,6 +51,11 @@ sap.ui.require([
     text: "Neues Produkt hinzufügen",
     icon: "sap-icon://add-product",
     press: handleAddItemPress
+  });
+  
+  const buyPremiumItemButton = new CheckBox({
+	id: "buyPremiumItem",
+    text: "Premium Produkte erwünscht",
   });
 
   const submitShoppingListButton = new Button({
@@ -73,6 +79,7 @@ sap.ui.require([
         items: [
           itemList,
           addItemButton,
+		  buyPremiumItemButton,
           submitShoppingListButton,
         ]
       })
