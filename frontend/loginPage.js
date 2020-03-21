@@ -94,7 +94,7 @@ sap.ui.require([
       }
 
       if (bValid && true) { // ask backend
-        sap.ui.getCore().byId("app").to("overviewPage");
+        sap.ui.getCore().byId("app").to("mainMenuPage");
       }
   }
 
