@@ -11,6 +11,7 @@ sap.ui.getCore().attachInit(function () {
         sap.ui.getCore().byId("overviewPage"),
         sap.ui.getCore().byId("mainMenuPage"),
         sap.ui.getCore().byId("createListPage"),
+        sap.ui.getCore().byId("educationPage"),
         sap.ui.getCore().byId("settingsPage"),
         sap.ui.getCore().byId("einkaufsItemPage")
       ]
@@ -32,7 +33,7 @@ sap.ui.getCore().attachInit(function () {
           case "#EinkaufslistenEigene":
             oApp.to("myListsPage");
             break;
-          case "#Aufklaerung":
+          case "#Selbstschutz":
             oApp.to("educationPage");
             break;
           case "#Einstellungen":

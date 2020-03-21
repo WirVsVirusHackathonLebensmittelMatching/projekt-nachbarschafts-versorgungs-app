@@ -27,7 +27,7 @@ sap.ui.require([
   };
 
   const handleClickEducationButton = function () {
-    window.location.hash = "#Aufklaerung";
+    window.location.hash = "#Selbstschutz";
   };
 
   const handleClickSettingsButton = function () {
@@ -61,7 +61,7 @@ sap.ui.require([
 
   const viewEducationButton = createMenuButton({
     id: "viewEducationButton",
-    text: "Aufklärung",
+    text: "Informationen zum Selbstschutz",
     icon: "sap-icon://warning2",
     press: handleClickEducationButton
   });
