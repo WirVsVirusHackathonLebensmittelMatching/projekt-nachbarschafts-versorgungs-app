@@ -14,12 +14,12 @@ sap.ui.require([
       oNachnameInput = sap.ui.getCore().byId("nachnameInput"),
       oEmailInput = sap.ui.getCore().byId("emailInput"),
       oPasswordInput = sap.ui.getCore().byId("passwordInput"),
-      oPasswordConfrimInput = sap.ui.getCore().byId("passwordConfirmInput");
+      oPasswordConfirmInput = sap.ui.getCore().byId("passwordConfirmInput");
 
     if (!oVornameInput.getVisible()) {
       oVornameInput.setVisible(true);
       oNachnameInput.setVisible(true);
-      oPasswordConfrimInput.setVisible(true);
+      oPasswordConfirmInput.setVisible(true);
     } else {
       var bValid = true;
 
@@ -55,10 +55,10 @@ sap.ui.require([
         oPasswordInput.setValueState("None");
       }
 
-      if (oPasswordConfrimInput.getValue() !== oPasswordInput.getValue()) {
+      if (oPasswordConfirmInput.getValue() !== oPasswordInput.getValue()) {
         bValid = false;
-        oPasswordConfrimInput.setValueState("Error");
-        oPasswordConfrimInput.setValueStateText("Die Passwörter müssen übereinstimmen!");
+        oPasswordConfirmInput.setValueState("Error");
+        oPasswordConfirmInput.setValueStateText("Die Passwörter müssen übereinstimmen!");
       } else {
         oPasswordInput.setValueState("None");
       }
@@ -67,7 +67,7 @@ sap.ui.require([
         MessageToast.show("Registrierungsmail wurde verschickt!");
         oVornameInput.setVisible(false);
         oNachnameInput.setVisible(false);
-        oPasswordConfrimInput.setVisible(false);
+        oPasswordConfirmInput.setVisible(false);
       }
     }
   };

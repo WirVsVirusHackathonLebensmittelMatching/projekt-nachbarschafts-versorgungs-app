@@ -63,10 +63,8 @@ sap.ui.require([
       }
 
       if (bValidEdit) {
-        MessageToast.show("Registrierungsmail wurde verschickt!");
-        oVornameEditInput.setVisible(false);
-        oNachnameEditInput.setVisible(false);
-        oPasswordConfirmEditInput.setVisible(false);
+        MessageToast.show("Profil erfolgreich gespeichert!");
+        window.location.hash = "#Menue";
       }
     }
   };

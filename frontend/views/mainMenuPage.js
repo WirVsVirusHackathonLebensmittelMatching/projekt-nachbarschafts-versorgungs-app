@@ -33,6 +33,10 @@ sap.ui.require([
   const handleClickSettingsButton = function () {
     window.location.hash = "#Settings";
   };
+  
+  const handleClickLogoutButton = function () {
+    window.location.hash = "#Logout";
+  };
 
   const createShoppingListButton = createMenuButton({
     id: "createShoppingListButton",
@@ -63,6 +67,12 @@ sap.ui.require([
     text: "Einstellungen",
     press: handleClickSettingsButton
   });
+  
+  const viewLogoutButton = createMenuButton({
+    id: "viewLogoutButton",
+    text: "Logout",
+    press: handleClickLogoutButton
+  });
 
   return new Page({
     id: "mainMenuPage",
@@ -80,7 +90,8 @@ sap.ui.require([
           viewShoppingListsButton,
           viewMyShoppingListsButton,
           viewEducationButton,
-		  viewSettingsButton
+		  viewSettingsButton,
+		  viewLogoutButton
         ]
       })
     ]
