@@ -122,6 +122,10 @@ sap.ui.require([
       window.location.hash = "#Menue";
     },
     titleAlignment: "Center",
+    showNavButton: true,
+    navButtonPress: function () {
+      window.history.back();
+    },
     content: [
       new VBox({
         justifyContent: "Center",
@@ -132,7 +136,7 @@ sap.ui.require([
           oEmailEditInput,
           oPasswordEditInput,
           opasswordConfirmEditInput,
-		  oEditButton
+          oEditButton
         ]
       }).addStyleClass("sapUiMediumMarginTop")
     ]

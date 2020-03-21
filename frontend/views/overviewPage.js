@@ -46,7 +46,7 @@ sap.ui.require([
     mViewSettingsFilters = null;
 
   var onItemPress = function (oEvent) {
-    console.log("Item pressed fired!");
+    window.location.hash = "#EinkaufsItem";
   };
 
   var applyCombinedFilters =  function () {
@@ -333,6 +333,7 @@ sap.ui.require([
   return new Page({
     id: "overviewPage",
     title: "Übersicht",
+    titleAlignment: "Center",
     showNavButton: true,
     navButtonPress: function () {
       window.location.hash = "#Menue";

@@ -45,22 +45,23 @@ sap.ui.require([
 
   const addItemButton = new Button({
     text: "Neues Produkt hinzufügen",
-    type: "Neutral",
+    icon: "sap-icon://add-product",
     press: handleAddItemPress
   });
 
   const submitShoppingListButton = new Button({
     text: "Einkaufliste speichern",
-    type: "Neutral",
+    icon: "sap-icon://message-success",
     press: handleSubmitShoppingListPress
   });
 
   return new Page({
     id: "createListPage",
     title: "Neue Einkaufsliste erstellen",
-	showNavButton: true,
+    titleAlignment: "Center",
+    showNavButton: true,
     navButtonPress: function () {
-      window.location.hash = "#Menue";
+      window.history.back();
     },
     content: [
       new VBox({

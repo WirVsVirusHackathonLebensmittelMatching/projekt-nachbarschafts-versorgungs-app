@@ -4,11 +4,11 @@ sap.ui.require([
   "sap/m/VBox",
 ], function (Page, Button, VBox) {
 
-  const createMenuButton = function ({ id, text, press }) {
+  const createMenuButton = function ({ id, text, press, icon }) {
     return new Button({
       id: id,
       text: text,
-      type: "Neutral",
+      icon: icon,
       width: "18rem",
       press: press
     }).addStyleClass("sapUiSmallMarginTop");
@@ -27,56 +27,67 @@ sap.ui.require([
   };
 
   const handleClickEducationButton = function () {
-    window.location.hash = "#Aufklaeung";
+    window.location.hash = "#Aufklaerung";
   };
-  
+
   const handleClickSettingsButton = function () {
-    window.location.hash = "#Settings";
+    window.location.hash = "#Einstellungen";
   };
-  
+
   const handleClickLogoutButton = function () {
-    window.location.hash = "#Logout";
+    window.location.hash = "";
   };
 
   const createShoppingListButton = createMenuButton({
     id: "createShoppingListButton",
     text: "Eine neue Einkaufliste erstellen",
+    icon: "sap-icon://add-activity-2",
     press: handleCreateShoppingListPress
   });
 
   const viewShoppingListsButton = createMenuButton({
     id: "viewShoppingListsButton",
     text: "Offene Einkaufslisten anzeigen",
+    icon: "sap-icon://show-edit",
     press: handleClickShoppingListsButton
   });
 
   const viewMyShoppingListsButton = createMenuButton({
     id: "viewMyShoppingListsButton",
     text: "Meine Einkaufslisten anzeigen",
+    icon: "sap-icon://activity-individual",
     press: handleClickMyShoppingListsButton
   });
 
   const viewEducationButton = createMenuButton({
     id: "viewEducationButton",
     text: "Aufklärung",
+    icon: "sap-icon://warning2",
     press: handleClickEducationButton
   });
-  
+
   const viewSettingsButton = createMenuButton({
     id: "viewSettingsButton",
     text: "Einstellungen",
+    icon: "sap-icon://user-edit",
     press: handleClickSettingsButton
   });
-  
+
   const viewLogoutButton = createMenuButton({
     id: "viewLogoutButton",
-    text: "Logout",
+    text: "Abmelden",
+    icon: "sap-icon://log",
     press: handleClickLogoutButton
   });
 
   return new Page({
     id: "mainMenuPage",
     title: "Übersichtsmenü",
+    titleAlignment: "Center",
+    showNavButton: true,
+    navButtonPress: function () {
+      window.history.back();
+    },
     content: [
       new VBox({
         justifyContent: "Center",
@@ -86,8 +97,8 @@ sap.ui.require([
           viewShoppingListsButton,
           viewMyShoppingListsButton,
           viewEducationButton,
-		  viewSettingsButton,
-		  viewLogoutButton
+          viewSettingsButton,
+          viewLogoutButton
         ]
       })
     ]

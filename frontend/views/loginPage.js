@@ -7,7 +7,8 @@ sap.ui.require([
   "sap/m/library",
   "sap/m/Page",
   "sap/m/MessageToast",
-], function (Button, Input, VBox, HBox, library, Page, MessageToast,) {
+  "sap/ui/core/Icon"
+], function (Button, Input, VBox, HBox, library, Page, MessageToast, Icon) {
 
   var handleRegisterPress = function () {
     var oVornameInput = sap.ui.getCore().byId("vornameInput"),
@@ -98,6 +99,11 @@ sap.ui.require([
       }
   }
 
+  var oIcon = new Icon({
+    src: "sap-icon://retail-store",
+    size: "3rem"
+  }).addStyleClass("sapUiLargeMarginTopBottom");
+
   var oVornameInput = new Input({
     id: "vornameInput",
     maxLength: 30,
@@ -161,6 +167,7 @@ sap.ui.require([
         justifyContent: "Center",
         alignItems: "Center",
         items: [
+          oIcon,
           oVornameInput,
           oNachnameInput,
           oEmailInput,
@@ -175,7 +182,7 @@ sap.ui.require([
             width: "18rem"
           })
         ]
-      }).addStyleClass("sapUiMediumMarginTop")
+      })
     ]
   });
 });
