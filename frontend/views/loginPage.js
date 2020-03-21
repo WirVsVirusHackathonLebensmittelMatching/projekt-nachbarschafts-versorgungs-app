@@ -126,9 +126,33 @@ sap.ui.require([
         oPasswordInput.setValueState("None");
       }
 
-      if (bValid && true) { // ask backend
-        window.location.hash = "#Menue";
-      }
+		var url = "http://localhost:8080/user-service/v1/users";
+
+		var data = {};
+		data.firstName = oVornameInput.getValue();
+		data.lastName  = oNachnameInput.getValue();
+		data.password = oPasswordInput.getValue();
+		data.mailAddress  = oEmailInput.getValue();
+		var json = JSON.stringify(data);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+		xhr.onload = function () {
+			var users = JSON.parse(xhr.responseText);
+			if (xhr.readyState == 4 && xhr.status == "200") {
+				if (bValid && true) {
+					console.log("Redirect with Login success");
+					window.location.hash = "#Menue";
+				}
+			} else {
+				if (bValid && true) {
+					console.log("Redirect with Login failure");
+					window.location.hash = "#Menue";
+				}
+			}
+		}
+		xhr.send(json);
   }
 
   var oIcon = new Icon({
