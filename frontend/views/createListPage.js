@@ -17,6 +17,7 @@ sap.ui.require([
 
   const handleSubmitShoppingListPress = function () {
     console.log(oModel.getProperty("/products"));
+	console.log("Premium: "+sap.ui.getCore().byId("buyPremiumItem").getSelected());
     MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
     window.location.hash = "#Menue";
   };
