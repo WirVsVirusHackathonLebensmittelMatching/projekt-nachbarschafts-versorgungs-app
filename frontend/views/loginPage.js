@@ -1,4 +1,3 @@
-
 sap.ui.require([
   "sap/m/Button",
   "sap/m/Input",
@@ -69,7 +68,7 @@ sap.ui.require([
 
         if (bValid) {
           var data = {};
-		  
+
           data.firstName = oVornameInput.getValue();
           data.lastName = oNachnameInput.getValue();
           data.password = oPasswordInput.getValue();
@@ -110,7 +109,7 @@ sap.ui.require([
 
       if (bValid) {
 		var data = {};
-		  
+
         data.password = oPasswordInput.getValue();
         data.mailAddress = oEmailInput.getValue();
 		
@@ -122,7 +121,7 @@ sap.ui.require([
 			console.log("webservice login failed");
 		}
       }
-    }
+    };
 
     // - View -
 

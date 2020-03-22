@@ -29,10 +29,10 @@ function doWSRequest(action, data = {} ) {
 		var xhr = new XMLHttpRequest();
 		var requestSuccessful = false;
 		
-		xhr.open("wsMethod", wsUrl + wsEndpoint, true);
+		xhr.open(wsMethod, wsUrl + wsEndpoint, true);
 		xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
 		xhr.onload = function () {
-			if (xhr.readyState == 4 && xhr.status == "200") {
+			if (xhr.readyState == 4 && xhr.status < 400) {
 				response = JSON.parse(xhr.response);
 				requestSuccessful = true;
 				console.log("Success!");
