@@ -84,8 +84,8 @@ sap.ui.require([
         aPropertiesToFilter = [
           "type",
           "street",
-          "state",
-          "city"
+          "city",
+          "plz"
         ];
         aFilters = aPropertiesToFilter.map(
             function (sPropertyToFilter) {
@@ -105,9 +105,9 @@ sap.ui.require([
       applyCombinedFilters();
     };
 
-    // var onAdd = function (oEvent) {
-    //   window.location.hash = "#ListeErstellen";
-    // };
+    var onAdd = function () {
+      window.location.hash = "#ListeErstellen";
+    };
 
     var getSorters = function (mParams) {
       var aSorters = [],
@@ -194,7 +194,6 @@ sap.ui.require([
           sortItems: [
             new ViewSettingsItem({ id: "TypeSort", text: "Einkaufstyp", key: "type" }),
             new ViewSettingsItem({ id: "StreetSort", text: "Straße", key: "street" }),
-            new ViewSettingsItem({ id: "StateSort", text: "Bundesland", key: "state" }),
             new ViewSettingsItem({ id: "PLZSort", text: "Postleitzahl", key: "plz" }),
             new ViewSettingsItem({ id: "CitySort", text: "Stadt", key: "city" }),
             new ViewSettingsItem({ id: "PriceSort", text: "Preis", key: "price" }),
@@ -206,7 +205,6 @@ sap.ui.require([
           groupItems: [
             new ViewSettingsItem({ id: "TypeGroup", text: "Einkaufstyp", key: "type" }),
             new ViewSettingsItem({ id: "StreetGroup", text: "Straße", key: "street" }),
-            new ViewSettingsItem({ id: "StateGroup", text: "Bundesland", key: "state" }),
             new ViewSettingsItem({ id: "PLZGroup", text: "Postleitzahl", key: "plz" }),
             new ViewSettingsItem({ id: "CityGroup", text: "Stadt", key: "city" }),
             new ViewSettingsItem({ id: "PriceGroup", text: "Preis", key: "price" }),
@@ -235,7 +233,6 @@ sap.ui.require([
         // oViewSettingsDialog.setModel(new JSONModel({
         //   type: removeDuplicates(aItems, "type"),
         //   street: removeDuplicates(aItems, "street"),
-        //   state: removeDuplicates(aItems, "state"),
         //   plz: removeDuplicates(aItems, "plz"),
         //   city: removeDuplicates(aItems, "city"),
         //   price: removeDuplicates(aItems, "price"),
@@ -251,54 +248,12 @@ sap.ui.require([
       Apothekeneinkauf: "Apothekeneinkauf"
     };
 
-    var oModel = new JSONModel({
-      busy: false,
-      items: [
-        {
-          type: mTypes.Lebensmitteleinkauf,
-          street: "Bäckerstraße",
-          state: "Rheinland-Pfalz",
-          plz: 55128,
-          city: "Mainz",
-          price: "15,00 €",
-          createdAt: "vor 2 Tagen"
-        },
-        {
-          type: mTypes.Apothekeneinkauf,
-          street: "Unter den Linden",
-          state: "Berlin",
-          plz: 12345,
-          city: "Berlin",
-          price: "9,56 €",
-          createdAt: "vor 16 Stunden"
-        },
-        {
-          type: mTypes.Lebensmitteleinkauf,
-          street: "Oppenhoffallee",
-          state: "Nordrhein-Westfalen",
-          plz: 52078,
-          city: "Aachen",
-          price: "72,60 €",
-          createdAt: "vor 5 Minuten"
-        },
-        {
-          type: "",
-          street: "An der Frauenkirche",
-          state: "Sachsen",
-          plz: 1127,
-          city: "Desden",
-          price: "27,30 €",
-          createdAt: "vor wenigen Sekunden"
-        }
-      ]
-    });
-
     var itemFactory = function (sId, oContext) {
       var oItemData = oContext.getModel().getProperty(oContext.getPath());
 
       var sType = oItemData.type,
         sIconUrl = "sap-icon://activities"
-        sPLZCity = oItemData.plz + " / " + oItemData.city;
+        sPLZCityStreet = oItemData.plz + " / " + oItemData.city + " / " + oItemData.street;
 
       switch (oItemData.type) {
           case mTypes.Lebensmitteleinkauf:
@@ -320,11 +275,7 @@ sap.ui.require([
           }),
           new ObjectIdentifier({
             title: sType,
-            text: "{street}"
-          }),
-          new ObjectIdentifier({
-            title: "{state}",
-            text: sPLZCity
+            text: sPLZCityStreet
           }),
           new ObjectIdentifier({
             title: "{price}",
@@ -336,16 +287,13 @@ sap.ui.require([
 
     return new Page({
       id: "overviewPage",
-      title: "Übersicht",
+      title: "{/title}",
       titleAlignment: "Center",
       showNavButton: true,
       navButtonPress: function () {
         window.history.back();
       },
       content: [
-        new Title({
-          text: "Offene Anfragen"
-        }),
         new Table({
           id: "table",
           busy: "{/busy}",
@@ -369,12 +317,13 @@ sap.ui.require([
                   moveToOverflow: false
                 })
               }),
-              // new Button({
-              //   id: "addButton",
-              //   text: "Einkaufsliste erstellen",
-              //   type: "Transparent",
-              //   press: onAdd
-              // }),
+              new Button({
+                id: "addButton",
+                text: "Einkaufsliste erstellen",
+                type: "Transparent",
+                visible: "{/own}",
+                press: onAdd
+              }),
               new Button({
                 id: "sortButton",
                 tooltip: "Sortieren",
@@ -417,15 +366,8 @@ sap.ui.require([
               id: "columnType",
               header: new ObjectIdentifier({
                 title: "Einkaufslistentyp",
-                text: "Straße"
+                text: "PLZ / Stadt / Straße"
               })
-            }),
-            new Column({
-              id: "columnPLZ",
-              header: new ObjectIdentifier({
-                title: "Bundesland",
-                text: "PLZ / Stadt"
-              }),
             }),
             new Column({
               id: "columnPrice",
@@ -440,7 +382,7 @@ sap.ui.require([
             path: "/items",
             factory: itemFactory
           },
-        }).setModel(oModel)
+        })
       ]
     }).addStyleClass("sapUiResponsiveContentPadding");
   });
