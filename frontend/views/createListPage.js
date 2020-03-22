@@ -41,6 +41,9 @@ sap.ui.require([
     var handleSubmitShoppingListPress = function () {
       // oModel.setProperty("/products", aProducts);
       // console.log(oModel.getData());
+
+      var products = oModel.getProperty("/products");
+
       window.aFakeItems.push({
         id: Date.now(),
         type: oModel.getProperty("/type"),
@@ -49,10 +52,22 @@ sap.ui.require([
         city: "Berlin",
         price: oModel.getProperty("/price"),
         neededTill: oModel.getProperty("/neededTill"),
-        products: oModel.getProperty("/products"),
+        products,
         own: true
       });
-      doWSRequest("order-create", {}, function (res) {
+
+      var order = {
+        orderedItems:
+          products.map(product => ({
+            name: product.itemName,
+            quantity: product.itemQuantity,
+            comment: product.itemComment
+          })),
+        latestDeliveryWished: oModel.getProperty("/neededTill"),
+        sessionToken: getCookie("sessionToken")
+      };
+
+      doWSRequest("order-create", order, function (res) {
         console.log("Test Response " + JSON.stringify(res))
       });
       MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
