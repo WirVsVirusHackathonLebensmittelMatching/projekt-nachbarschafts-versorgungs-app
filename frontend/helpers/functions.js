@@ -46,10 +46,12 @@ function doWSRequest(action, data = {}, handleResponse = () => {
       switch (action) {
         case "user-register":
           document.cookie = "userId=" + parsedResponse.userId;
+		  return true;
           break;
         case "user-login":
           document.cookie = "userId=" + parsedResponse.userId;
           document.cookie = "sessionToken=" + parsedResponse.sessionToken;
+		  return true;
           break;
         default:
           handleResponse(parsedResponse);
