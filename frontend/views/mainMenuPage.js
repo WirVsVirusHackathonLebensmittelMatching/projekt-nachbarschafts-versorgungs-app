@@ -10,6 +10,7 @@ sap.ui.require([
     // - Controller -
 
     var handleCreateShoppingListPress = function () {
+      window.oItemContext = null;
       window.location.hash = "#ListeErstellen";
     };
 

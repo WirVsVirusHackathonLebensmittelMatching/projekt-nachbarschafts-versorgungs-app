@@ -105,6 +105,7 @@ sap.ui.require([
     };
 
     var onAdd = function () {
+      window.oItemContext = null;
       window.location.hash = "#ListeErstellen";
     };
 

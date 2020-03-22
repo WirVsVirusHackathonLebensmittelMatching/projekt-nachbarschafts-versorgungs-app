@@ -121,8 +121,8 @@ sap.ui.require([
       window.oItemContext = null;
       window.history.back();
     };
-	    
-	var onOpenChatPress = function () {
+
+    var onOpenChatPress = function () {
       window.location.hash = "#Chat";
     };
 
@@ -168,7 +168,7 @@ sap.ui.require([
               new Button({
                 icon: "sap-icon://comment",
                 tooltip: "Chat",
-				press: onOpenChatPress
+                press: onOpenChatPress
               })
             ]
           }),

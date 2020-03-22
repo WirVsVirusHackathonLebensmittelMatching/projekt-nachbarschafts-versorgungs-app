@@ -201,7 +201,7 @@ sap.ui.require([
 
     return new Page({
       id: "createListPage",
-      title: "Neue Einkaufsliste erstellen",
+      title: "{/title}",
       titleAlignment: "Center",
       showNavButton: true,
       navButtonPress: function () {
