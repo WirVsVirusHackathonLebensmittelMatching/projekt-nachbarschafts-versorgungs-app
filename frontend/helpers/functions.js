@@ -1,7 +1,7 @@
 function doWSRequest(action, data = {} ) {
 	
 	var wsMethod = "POST";
-	var wsUrl = "https://webservice.wirvsvirus.mariogeckler.de";
+	var wsUrl = "https://webservice.homepick.de";
 	var wsEndpoint = "";
 	var wsResponse = "";
 	var exitfunction = false;
