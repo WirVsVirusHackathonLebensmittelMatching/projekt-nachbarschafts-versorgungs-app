@@ -171,12 +171,11 @@ sap.ui.require([
         const loginSuccessHandler = function (response) {
           setCookie("userId", response.userId);
           setCookie("sessionToken", response.sessionToken);
+          window.location.hash = "#Menue";
         };
 
         doWSRequest("user-login", data, loginSuccessHandler);
       }
-      // Only for development. But this line into the loginSuccessHandler
-      window.location.hash = "#Menue";
     };
 
     // - View -
