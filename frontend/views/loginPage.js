@@ -14,12 +14,6 @@ sap.ui.require([
   oGlobalEventBus.subscribeOnce("create-loginPage", function () {
     // - Controller -
 
-    var isEmail = function (sEmailText) {
-      var iAt = sEmailText.search(/@/),
-        iDot = sEmailText.substring(iAt, sEmailText.length).search(/\./);
-      return iAt > 0 && iDot > 1 && sEmailText.length > 5;
-    };
-
     var handleRegisterPress = function () {
       var oDialog = sap.ui.getCore().byId("registerDialog");
 

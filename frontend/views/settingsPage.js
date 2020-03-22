@@ -38,7 +38,7 @@ sap.ui.require([
         oNachnameEditInput.setValueState("None");
       }
 
-      if (oEmailEditInput.getValue().length < 3) {
+      if (!isEmail(oEmailInput.getValue())) {
         bValidEdit = false;
         oEmailEditInput.setValueState("Error");
         oEmailEditInput.setValueStateText("Bitte geben Sie Ihre Email Adresse ein.");
