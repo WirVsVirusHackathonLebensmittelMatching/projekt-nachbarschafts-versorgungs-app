@@ -121,6 +121,10 @@ sap.ui.require([
       window.oItemContext = null;
       window.history.back();
     };
+	    
+	var onOpenChatPress = function () {
+      window.location.hash = "#Chat";
+    };
 
     var onEditPress = function () {
       window.location.hash = "#ListeErstellen";
@@ -163,7 +167,8 @@ sap.ui.require([
               }),
               new Button({
                 icon: "sap-icon://comment",
-                tooltip: "Chat"
+                tooltip: "Chat",
+				press: onOpenChatPress
               })
             ]
           }),

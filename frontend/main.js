@@ -24,7 +24,8 @@ sap.ui.getCore().attachInit(function () {
         "#EinkaufslistenEigene": "overviewPage",
         "#Selbstschutz": "educationPage",
         "#Einstellungen": "settingsPage",
-        "#EinkaufsItem": "einkaufsItemPage"
+        "#EinkaufsItem": "einkaufsItemPage",
+		"#Chat": "chatPage"
       }
 
       var sId = mPages[window.location.hash] || "loginPage";
