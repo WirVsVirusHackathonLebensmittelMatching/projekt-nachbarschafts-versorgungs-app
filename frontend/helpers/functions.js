@@ -35,11 +35,6 @@ function doWSRequest(action, data = {} ) {
 			if (xhr.readyState == 4 && xhr.status < 400) {
 				response = JSON.parse(xhr.response);
 				requestSuccessful = true;
-				console.log("Success!");
-				return true;
-			} else {
-				console.log("Error!");
-				return false;
 			}
 		}
 		xhr.send(json);
