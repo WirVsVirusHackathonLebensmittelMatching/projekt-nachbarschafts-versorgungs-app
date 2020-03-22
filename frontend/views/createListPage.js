@@ -9,7 +9,6 @@ sap.ui.require([
   "sap/m/Title",
   "sap/m/Dialog",
   "sap/ui/core/Item",
-  "sap/ui/model/json/JSONModel",
   "sap/m/StandardListItem",
   "sap/m/MessageToast",
 ], function (
@@ -23,7 +22,6 @@ sap.ui.require([
   Title,
   Dialog,
   Item,
-  JSONModel,
   StandardListItem,
   MessageToast
 ) {
@@ -31,18 +29,9 @@ sap.ui.require([
 
     // - Controller -
 
-    var oModel = new JSONModel({
-      products: [],
-      type: "",
-      neededTill: "",
-      price: ""
-    });
-
     var handleSubmitShoppingListPress = function () {
-      // oModel.setProperty("/products", aProducts);
-      // console.log(oModel.getData());
-
-      var products = oModel.getProperty("/products");
+      var oModel = sap.ui.getCore().byId("createListPage").getModel(),
+      products = oModel.getProperty("/products");
 
       window.aFakeItems.push({
         id: Date.now(),
@@ -52,7 +41,7 @@ sap.ui.require([
         city: "Berlin",
         price: oModel.getProperty("/price"),
         neededTill: oModel.getProperty("/neededTill"),
-        products,
+        products: products,
         own: true
       });
 
@@ -76,6 +65,7 @@ sap.ui.require([
 
     var handleAddItemPress = function () {
       var oDialog = sap.ui.getCore().byId("createProductDialog");
+
       if (oDialog) {
         oProductNameInput = sap.ui.getCore().byId("productNameInput").setValue("");
         oProductCounterInput = sap.ui.getCore().byId("productCounterInput").setValue("");
@@ -131,14 +121,16 @@ sap.ui.require([
               }
 
               if (bValid) {
-                var aProducts = oModel.getProperty("/products");
+                var oModel = sap.ui.getCore().byId("createListPage").getModel(),
+                  aProducts = oModel.getProperty("/products");
+
                 aProducts.push({
                   itemName: oProductNameInput.getValue(),
                   itemQuantity: iCounter,
                   itemComment: oProductCommentInput.getValue(),
                   checked: false
                 });
-                oModel.setProperty("/prodcuts", aProducts);
+                oModel.setProperty("/products", aProducts);
                 oDialog.close();
               }
             }
@@ -170,6 +162,7 @@ sap.ui.require([
           text: "Einkaufsliste:"
         }).addStyleClass("sapUiSmallMarginTopBottom sapUiSmallMarginBegin"),
         new List({
+          id: "createList",
           noDataText: "Bitte fügen Sie Produkte zu Ihrer Einkaufsliste hinzu.",
           items: {
             path: "/products",
@@ -244,6 +237,6 @@ sap.ui.require([
           ]
         })
       ]
-    }).setModel(oModel);
+    })
   });
 });

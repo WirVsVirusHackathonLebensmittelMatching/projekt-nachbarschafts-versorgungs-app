@@ -47,7 +47,12 @@ sap.ui.require([
         id: sId,
         title: "{itemName}",
         counter: "{itemQuantity}",
-        type: "Active",
+        type: {
+          path: "/own",
+          formatter: function (bOwn) {
+            return bOwn ? "Inactive" : "Active";
+          }
+        },
         iconInset: false,
         icon: {
           path: "checked",
@@ -118,7 +123,7 @@ sap.ui.require([
     };
 
     var onEditPress = function () {
-      console.log("Edit pressed!");
+      window.location.hash = "#ListeErstellen";
     };
 
     return new Page({
@@ -205,16 +210,24 @@ sap.ui.require([
                   new Button({
                     id: "editList",
                     text: "Ändern",
+                    visible: "{/own}",
                     press: onEditPress
                   }),
                   new Button({
                     id: "deleteList",
                     text: "Löschen",
+                    visible: "{/own}",
                     press: onDeletePress
                   }),
                   new Button({
                     id: "confirmBuying",
                     text: "Einkauf abschließen",
+                    visible: {
+                      path: "/own",
+                      formatter: function (bOwn) {
+                        return !bOwn;
+                      }
+                    },
                     type: {
                       path: "/products",
                       formatter: formatterConfirmBuying
@@ -226,6 +239,7 @@ sap.ui.require([
               new List({
                 id: "einkaufsListe",
                 itemPress: onItemPress,
+                noDataText: "Keine Produkte vorhanden.",
                 items: {
                   path: "/products",
                   factory: itemFactory

@@ -90,6 +90,17 @@ sap.ui.getCore().attachInit(function () {
         } else {
           oPage.setModel(new JSONModel(window.oItemContext));
         }
+      } else if (window.location.hash === "#ListeErstellen") {
+        if (!window.oItemContext) {
+          oPage.setModel(new JSONModel({
+            products: [],
+            type: "",
+            neededTill: "",
+            price: ""
+          }));
+        } else {
+          oPage.setModel(new JSONModel(window.oItemContext));
+        }
       }
 
       if (oApp.indexOfPage(oPage) === -1) {
