@@ -46,9 +46,12 @@ function doWSRequest(action, data = {}, handleSuccessResponse = function () {}) 
         console.log("Error in request!");
         return false;
       }
-
-      var parsedResponse = JSON.parse(xhr.response);
       console.log("Successful request!");
+
+      var parsedResponse = undefined;
+      if (xhr.response && xhr.response.length > 0) {
+        parsedResponse = JSON.parse(xhr.response);
+      }
       handleSuccessResponse(parsedResponse);
     };
     xhr.send(json);
