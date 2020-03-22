@@ -117,6 +117,7 @@ sap.ui.require([
                 const registerSuccessHandler = function (response) {
                   setCookie("userId", response.userId);
                   MessageToast.show("Registrierungsmail wurde verschickt!");
+                  oDialog.close();
                 };
 
                 doWSRequest("user-register", {
@@ -125,8 +126,6 @@ sap.ui.require([
                   password: oPasswordInput.getValue(),
                   mailAddress: oEmailInput.getValue()
                 }, registerSuccessHandler);
-
-                oDialog.close();
               }
             }
           }),
