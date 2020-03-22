@@ -48,9 +48,12 @@ sap.ui.require([
         title: "{itemName}",
         counter: "{itemQuantity}",
         type: {
-          path: "/own",
-          formatter: function (bOwn) {
-            return bOwn ? "Inactive" : "Active";
+          parts: [
+            "/own",
+            "/state"
+          ],
+          formatter: function (bOwn, sState) {
+            return (bOwn || sState !== "taken") ? "Inactive" : "Active";
           }
         },
         iconInset: false,
@@ -102,14 +105,14 @@ sap.ui.require([
           emphasizedAction: MessageBox.Action.YES,
           onClose: function (oAction) {
             if (oAction === MessageBox.Action.YES) {
-              sap.ui.getCore().byId("einkaufsListe").setBlocked(true);
-              sap.ui.getCore().byId("confirmBuying").setVisible(false);
+              var oModel = sap.ui.getCore().byId("einkaufsItemPage").getModel();
+              oModel.setProperty("/state", "finishedBuying");
             }
           }
         });
       } else {
-        sap.ui.getCore().byId("einkaufsListe").setBlocked(true);
-        sap.ui.getCore().byId("confirmBuying").setVisible(false);
+        var oModel = sap.ui.getCore().byId("einkaufsItemPage").getModel();
+        oModel.setProperty("/state", "finishedBuying");
       }
     }
 
@@ -130,6 +133,11 @@ sap.ui.require([
       window.location.hash = "#ListeErstellen";
     };
 
+    var onTakeOver = function () {
+      var oModel = sap.ui.getCore().byId("einkaufsItemPage").getModel();
+      oModel.setProperty("/state", "taken");
+    };
+
     return new Page({
       id: "einkaufsItemPage",
       title: "EinkaufsItem",
@@ -145,16 +153,16 @@ sap.ui.require([
           toggleHeaderOnTitleClick: "{/titleClickable}",
           title: new DynamicPageTitle({
             heading: new Title({
-              text: "Header Title"
+              text: "Einkaufsliste"
             }),
             expandedContent: new Label({
-              text: "This is a expanded subheading"
+              text: "{/type}"
             }),
             snappedContent: new Label({
-              text: "This is a snapped subheading"
+              text: "{/type}"
             }),
             snappedTitleOnMobile: new Title({
-              text: "Header Title On Phone"
+              text: "Einkaufsliste"
             }),
             navigationActions: [
               new Button({
@@ -179,27 +187,37 @@ sap.ui.require([
                   new VerticalLayout({
                     content: [
                       new ObjectAttribute({
-                        title: "Location",
-                        text: "Warehouse A"
-                      }),
-                      new ObjectAttribute({
-                        title: "Halway",
-                        text: "23L"
-                      }),
-                      new ObjectAttribute({
-                        title: "Rack",
-                        text: "34"
-                      })
-                    ]
-                  }),
-                  new VerticalLayout({
-                    content: [
-                      new ObjectAttribute({
-                        title: "Availability"
+                        title: "Status"
                       }),
                       new ObjectStatus({
-                        text: "In Stock",
-                        state: "Success"
+                        text: "Offen",
+                        state: "Information",
+                        visible: {
+                          path: "/state",
+                          formatter: function (sState) {
+                            return sState === "open";
+                          }
+                        }
+                      }),
+                      new ObjectStatus({
+                        text: "In Bearbeitung",
+                        state: "Warning",
+                        visible: {
+                          path: "/state",
+                          formatter: function (sState) {
+                            return sState === "taken";
+                          }
+                        }
+                      }),
+                      new ObjectStatus({
+                        text: "Gekauft",
+                        state: "Success",
+                        visible: {
+                          path: "/state",
+                          formatter: function (sState) {
+                            return sState === "finishedBuying";
+                          }
+                        }
                       })
                     ]
                   })
@@ -225,12 +243,30 @@ sap.ui.require([
                     press: onDeletePress
                   }),
                   new Button({
+                    id: "takeOverButton",
+                    text: "Einkaufsliste übernehmen",
+                    type: "Emphasized",
+                    visible: {
+                      parts: [
+                        "/own",
+                        "/state"
+                      ],
+                      formatter: function (bOwn, sState) {
+                        return !bOwn && sState === "open";
+                      }
+                    },
+                    press: onTakeOver
+                  }),
+                  new Button({
                     id: "confirmBuying",
                     text: "Einkauf abschließen",
                     visible: {
-                      path: "/own",
-                      formatter: function (bOwn) {
-                        return !bOwn;
+                      parts: [
+                        "/own",
+                        "/state"
+                      ],
+                      formatter: function (bOwn, sState) {
+                        return !bOwn && sState === "taken";
                       }
                     },
                     type: {
@@ -243,6 +279,12 @@ sap.ui.require([
               }),
               new List({
                 id: "einkaufsListe",
+                blocked: {
+                  path: "/state",
+                  formatter: function (sState) {
+                    return sState === "finishedBuying";
+                  }
+                },
                 itemPress: onItemPress,
                 noDataText: "Keine Produkte vorhanden.",
                 items: {
