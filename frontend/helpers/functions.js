@@ -33,6 +33,9 @@ function doWSRequest(action, data = {} ) {
 		xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
 		xhr.onload = function () {
 			if (xhr.readyState == 4 && xhr.status < 400) {
+				console.log("Webservice response ready");
+				console.log("JSON: "+JSON.parse(xhr.response));
+				console.log("action: "+action);
 				response = JSON.parse(xhr.response);
 				requestSuccessful = true;
 			}
