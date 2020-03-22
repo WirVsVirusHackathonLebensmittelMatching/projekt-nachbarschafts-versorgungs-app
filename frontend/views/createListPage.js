@@ -39,7 +39,7 @@ sap.ui.require([
     });
 
     var handleSubmitShoppingListPress = function () {
-      oModel.setProperty("/products", aProducts);
+      // oModel.setProperty("/products", aProducts);
       // console.log(oModel.getData());
       window.aFakeItems.push({
         id: Date.now(),
@@ -52,6 +52,7 @@ sap.ui.require([
         products: oModel.getProperty("/products"),
         own: true
       });
+      doWSRequest("order-create", {}, (res) => {console.log("Test Response " + JSON.stringify(res))});
       MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
       window.history.back();
     };
