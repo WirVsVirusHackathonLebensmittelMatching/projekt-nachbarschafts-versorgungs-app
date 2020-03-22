@@ -4,47 +4,33 @@ sap.ui.getCore().attachInit(function () {
   ], function (App) {
     window.location.hash = "";
 
+    oGlobalEventBus.publish("create-loginPage");
     var oApp = new App({
-      id: "app",
       pages: [
-        sap.ui.getCore().byId("loginPage"),
-        sap.ui.getCore().byId("overviewPage"),
-        sap.ui.getCore().byId("mainMenuPage"),
-        sap.ui.getCore().byId("createListPage"),
-        sap.ui.getCore().byId("educationPage"),
-        sap.ui.getCore().byId("settingsPage"),
-        sap.ui.getCore().byId("einkaufsItemPage")
+        sap.ui.getCore().byId("loginPage")
       ]
     });
 
     oApp.placeAt("content");
 
     window.addEventListener("hashchange", function () {
-      switch (window.location.hash) {
-          case "#Menue":
-            oApp.to("mainMenuPage");
-            break;
-          case "#ListeErstellen":
-            oApp.to("createListPage");
-            break;
-          case "#EinkaufslistenUebersicht":
-            oApp.to("overviewPage");
-            break;
-          case "#EinkaufslistenEigene":
-            oApp.to("myListsPage");
-            break;
-          case "#Selbstschutz":
-            oApp.to("educationPage");
-            break;
-          case "#Einstellungen":
-            oApp.to("settingsPage");
-            break;
-          case "#EinkaufsItem":
-            oApp.to("einkaufsItemPage");
-            break;
-          default:
-            oApp.to("loginPage");
+      var mPages = {
+        "#Menue": "mainMenuPage",
+        "#ListeErstellen": "createListPage",
+        "#EinkaufslistenUebersicht": "overviewPage",
+        "#EinkaufslistenEigene": "myListsPage",
+        "#Selbstschutz": "educationPage",
+        "#Einstellungen": "settingsPage",
+        "#EinkaufsItem": "einkaufsItemPage"
       }
+
+      var sId = mPages[window.location.hash] || "loginPage";
+      oGlobalEventBus.publish("create-" + sId);
+      var oPage = sap.ui.getCore().byId(sId);
+      if (oApp.indexOfPage(oPage) === -1) {
+        oApp.addPage(oPage);
+      }
+      oApp.to(sId);
     }, false);
   });
 });
