@@ -52,7 +52,7 @@ sap.ui.require([
           },
           type: "Warning",
           showIcon: true,
-          text: "Hinweis: Um alle Funktionen zu benutzen wird eine Postleitzahl benötigt. Diese kann in den Einstellungen eingetragen werden."
+          text: "Hinweis: Um alle Funktionen zu benutzen wird eine Postleitzahl und eine Straße benötigt. Diese kann in den Einstellungen eingetragen werden."
         }).addStyleClass("sapUiTinyMarginTopBottom sapUiSmallMarginBeginEnd"),
         new VBox({
           justifyContent: "Center",
@@ -80,12 +80,9 @@ sap.ui.require([
               icon: "sap-icon://show-edit",
               width: "18rem",
               enabled: {
-                parts: [
-                  "/plz",
-                  "/street"
-                ],
-                formatter: function (sPLZ, sStreet) {
-                  return !!sPLZ.length && !!sStreet.length;
+                path: "/plz",
+                formatter: function (sPLZ) {
+                  return !!sPLZ.length;
                 }
               },
               press: handleClickShoppingListsButton

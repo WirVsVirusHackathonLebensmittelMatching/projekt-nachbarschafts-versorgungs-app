@@ -111,7 +111,7 @@ sap.ui.require([
       width: "18rem"
     });
 
-    var oSteetEditInput = new Input({
+    var oStreetEditInput = new Input({
       id: "streetEditInput",
       maxLength: 30,
       placeholder: "Straße",
@@ -172,7 +172,7 @@ sap.ui.require([
             oNachnameEditInput,
             oEmailEditInput,
             oPlzEditInput,
-            oSteetEditInput,
+            oStreetEditInput,
             oPasswordEditInput,
             opasswordConfirmEditInput,
             // oSellerEditInput,
