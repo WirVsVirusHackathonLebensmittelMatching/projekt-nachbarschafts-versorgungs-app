@@ -12,6 +12,8 @@ sap.ui.getCore().attachInit(function () {
       ]
     });
 
+    var bLoadedAllOnce = false;
+
     oApp.placeAt("content");
 
     window.addEventListener("hashchange", function () {
@@ -40,21 +42,36 @@ sap.ui.getCore().attachInit(function () {
           oPage.getModel().setProperty("/busy", false);
         }, 2000);
       } else if (window.location.hash === "#EinkaufslistenUebersicht") {
-        oPage.setModel(new JSONModel({
-          title: "Offene Einkaufslisten",
-          busy: true,
-          items: [],
-          own: false
-        }));
-        window.setTimeout(function () {
-          oPage.getModel().setProperty("/busy", false);
-          oPage.getModel().setProperty("/items", [
-            { type: "Lebensmitteleinkauf", street: "Bäckerstraße", plz: "55128", city: "Mainz", price: "15,00 €", createdAt: "vor 2 Tagen" },
-            { type: "Apothekeneinkauf", street: "Unter den Linden", plz: "12345", city: "Berlin", price: "9,56 €", createdAt: "vor 16 Stunden" },
-            { type: "Lebensmitteleinkauf", street: "Oppenhoffallee", plz: "52078", city: "Aachen", price: "72,60 €", createdAt: "vor 5 Minuten" },
-            { type: "", street: "An der Frauenkirche", plz: "1127", city: "Desden", price: "27,30 €", createdAt: "vor wenigen Sekunden" }
-          ]);
-        }, 2000);
+        var aItems = [
+          { type: "", street: "An der Frauenkirche", plz: "1127", city: "Desden", price: "27,30 €", neededTill: "in 42 Minuten" },
+          { type: "Lebensmitteleinkauf", street: "Oppenhoffallee", plz: "52078", city: "Aachen", price: "72,60 €", neededTill: "in 2 Stunden" },
+          { type: "Apothekeneinkauf", street: "Unter den Linden", plz: "12345", city: "Berlin", price: "9,56 €", neededTill: "in 14 Stunden" },
+          { type: "Lebensmitteleinkauf", street: "Bäckerstraße", plz: "55128", city: "Mainz", price: "15,00 €", neededTill: "in 2 Tagen" }
+        ];
+
+        if (!bLoadedAllOnce) {
+          oPage.setModel(new JSONModel({
+            title: "Offene Einkaufslisten",
+            busy: true,
+            items: [],
+            own: false
+          }));
+          window.setTimeout(function () {
+            oPage.getModel().setProperty("/busy", false);
+            oPage.getModel().setProperty("/items", aItems);
+          }, 2000);
+          bLoadedAllOnce = true;
+        } else {
+          oPage.setModel(new JSONModel({
+            title: "Offene Einkaufslisten",
+            busy: true,
+            items: aItems,
+            own: false
+          }));
+          window.setTimeout(function () {
+            oPage.getModel().setProperty("/busy", false);
+          }, 2000);
+        }
       }
 
       if (oApp.indexOfPage(oPage) === -1) {

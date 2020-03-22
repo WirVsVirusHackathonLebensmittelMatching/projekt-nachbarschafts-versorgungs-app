@@ -197,7 +197,7 @@ sap.ui.require([
             new ViewSettingsItem({ id: "PLZSort", text: "Postleitzahl", key: "plz" }),
             new ViewSettingsItem({ id: "CitySort", text: "Stadt", key: "city" }),
             new ViewSettingsItem({ id: "PriceSort", text: "Preis", key: "price" }),
-            new ViewSettingsItem({ id: "CreatedAtSort", text: "Erstellt am", key: "createdAt" })
+            new ViewSettingsItem({ id: "NeededTillSort", text: "Erstellt am", key: "neededTill" })
           ],
           // filterItems: [
           //   new ViewSettingsFilterItem({ id: "TypeFilter", text: "Einkaufstyp", key: "type", items: { path: "uniqueValues>/type", factory: typeFilterFactory, key: "id" } })
@@ -208,7 +208,7 @@ sap.ui.require([
             new ViewSettingsItem({ id: "PLZGroup", text: "Postleitzahl", key: "plz" }),
             new ViewSettingsItem({ id: "CityGroup", text: "Stadt", key: "city" }),
             new ViewSettingsItem({ id: "PriceGroup", text: "Preis", key: "price" }),
-            new ViewSettingsItem({ id: "CreatedAtGroup", text: "Erstellt am", key: "createdAt" })
+            new ViewSettingsItem({ id: "NeededTillGroup", text: "Erstellt am", key: "neededTill" })
 
           ]
         });
@@ -236,7 +236,7 @@ sap.ui.require([
         //   plz: removeDuplicates(aItems, "plz"),
         //   city: removeDuplicates(aItems, "city"),
         //   price: removeDuplicates(aItems, "price"),
-        //   createdAt: removeDuplicates(aItems, "createdAt")
+        //   neededTill: removeDuplicates(aItems, "neededTill")
         // }, "uniqueValues"));
 
         oViewSettingsDialog.open(sAction);
@@ -279,7 +279,7 @@ sap.ui.require([
           }),
           new ObjectIdentifier({
             title: "{price}",
-            text: "{createdAt}"
+            text: "{neededTill}"
           })
         ]
       })
@@ -372,8 +372,8 @@ sap.ui.require([
             new Column({
               id: "columnPrice",
               header: new ObjectIdentifier({
-                title: "Warenwert",
-                text: "Erstellt vor"
+                title: "Budget",
+                text: "Benötigt bis"
               }),
               width: "25%"
             })
