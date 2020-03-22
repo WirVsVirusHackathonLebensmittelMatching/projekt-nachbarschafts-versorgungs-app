@@ -1,7 +1,7 @@
 function doWSRequest(action, data = {} ) {
 	
 	var wsMethod = "POST";
-	var wsUrl = "https://webservice.wirvsvirus.mariogeckler.de:8080";
+	var wsUrl = "https://webservice.wirvsvirus.mariogeckler.de";
 	var wsEndpoint = "";
 	var wsResponse = "";
 	var exitfunction = false;
