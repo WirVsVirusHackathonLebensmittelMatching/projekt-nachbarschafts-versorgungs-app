@@ -24,7 +24,6 @@ sap.ui.require([
         oVornameInput.setVisible(true);
         oNachnameInput.setVisible(true);
         oPasswordConfirmInput.setVisible(true);
-        oPlzInput.setVisible(true);
       } else {
         var bValid = true;
 
@@ -52,14 +51,6 @@ sap.ui.require([
           oEmailInput.setValueState("None");
         }
 
-        if (oPlzInput.getValue().length < 4 && oPlzInput.getValue().isInteger != true) {
-          bValid = false;
-          oPlzInput.setValueState("Error");
-          oPlzInput.setValueStateText("Bitte geben eine gültige Postleitzahl ein.");
-        } else {
-          oPlzInput.setValueState("None");
-        }
-
         if (oPasswordInput.getValue().length < 6) {
           bValid = false;
           oPasswordInput.setValueState("Error");
@@ -77,32 +68,19 @@ sap.ui.require([
         }
 
         if (bValid) {
-          var url = "http://localhost:8080/user-service/v1/users";
-
           var data = {};
+		  
           data.firstName = oVornameInput.getValue();
           data.lastName = oNachnameInput.getValue();
           data.password = oPasswordInput.getValue();
           data.mailAddress = oEmailInput.getValue();
-          var json = JSON.stringify(data);
-
-          var xhr = new XMLHttpRequest();
-          xhr.open("PUT", url, true);
-          xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-          xhr.onload = function () {
-            var users = JSON.parse(xhr.responseText);
-            if (xhr.readyState == 4 && xhr.status == "200") {
-              console.log("Success!");
-            } else {
-              console.log("Error!");
-            }
-          }
-          xhr.send(json);
+		  
+          doWSRequest("user-register",data);
+		  
           MessageToast.show("Registrierungsmail wurde verschickt!");
           oVornameInput.setVisible(false);
           oNachnameInput.setVisible(false);
           oPasswordConfirmInput.setVisible(false);
-          oPlzInput.setVisible(false);
         }
       }
     };
@@ -133,27 +111,12 @@ sap.ui.require([
       }
 
       if (bValid) {
-        var url = "http://localhost:8080/user-service/v1/users";
-
-        var data = {};
-        data.mailAddress = oEmailInput.getValue();
+		var data = {};
+		  
         data.password = oPasswordInput.getValue();
-        var json = JSON.stringify(data);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-        xhr.onload = function () {
-          var users = JSON.parse(xhr.responseText);
-          if (xhr.readyState == 4 && xhr.status == "200") {
-            console.log("Redirect with Login success");
-            window.location.hash = "#Menue";
-          } else {
-            console.log("Wrong Password!");
-            window.location.hash = "#Menue";
-          }
-        }
-        xhr.send(json);
+        data.mailAddress = oEmailInput.getValue();
+		
+        doWSRequest("user-login",data);
       }
     }
 
