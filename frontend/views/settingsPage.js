@@ -19,45 +19,44 @@ sap.ui.require([
         oPlzEditInput = sap.ui.getCore().byId("plzEditInput"),
         oPasswordConfirmEditInput = sap.ui.getCore().byId("passwordConfirmEditInput");
 
-      if (!oVornameEditInput.getVisible()) {
-        oVornameEditInput.setVisible(true);
-        oNachnameEditInput.setVisible(true);
-        oPasswordConfirmEditInput.setVisible(true);
+      var bValidEdit = true;
+
+      if (oVornameEditInput.getValue().length < 3) {
+        bValidEdit = false;
+        oVornameEditInput.setValueState("Error");
+        oVornameEditInput.setValueStateText("Bitte gebe Sie Ihren Vornamen ein.");
       } else {
-        var bValidEdit = true;
+        oVornameEditInput.setValueState("None");
+      }
 
-        if (oVornameEditInput.getValue().length < 3) {
-          bValidEdit = false;
-          oVornameEditInput.setValueState("Error");
-          oVornameEditInput.setValueStateText("Bitte gebe Sie Ihren Vornamen ein.");
-        } else {
-          oVornameEditInput.setValueState("None");
-        }
+      if (oNachnameEditInput.getValue().length < 3) {
+        bValidEdit = false;
+        oNachnameEditInput.setValueState("Error");
+        oNachnameEditInput.setValueStateText("Bitte gebe Sie Ihren Nachnamen ein.");
+      } else {
+        oNachnameEditInput.setValueState("None");
+      }
 
-        if (oNachnameEditInput.getValue().length < 3) {
-          bValidEdit = false;
-          oNachnameEditInput.setValueState("Error");
-          oNachnameEditInput.setValueStateText("Bitte gebe Sie Ihren Nachnamen ein.");
-        } else {
-          oNachnameEditInput.setValueState("None");
-        }
+      if (oEmailEditInput.getValue().length < 3) {
+        bValidEdit = false;
+        oEmailEditInput.setValueState("Error");
+        oEmailEditInput.setValueStateText("Bitte geben Sie Ihre Email Adresse ein.");
+      } else {
+        oEmailEditInput.setValueState("None");
+      }
 
-        if (oEmailEditInput.getValue().length < 3) {
-          bValidEdit = false;
-          oEmailEditInput.setValueState("Error");
-          oEmailEditInput.setValueStateText("Bitte geben Sie Ihre Email Adresse ein.");
-        } else {
-          oEmailEditInput.setValueState("None");
-        }
+      if (oPlzEditInput.getValue().length < 4 || isNaN(parseInt(oPlzEditInput.getValue(), 10))) {
+        bValidEdit = false;
+        oPlzEditInput.setValueState("Error");
+        oPlzEditInput.setValueStateText("Bitte geben eine gültige Postleitzahl ein.");
+      } else {
+        oPlzEditInput.setValueState("None");
+      }
 
-        if (oPlzEditInput.getValue().length < 4 || isNaN(parseInt(oPlzEditInput.getValue(), 10))) {
-          bValidEdit = false;
-          oPlzEditInput.setValueState("Error");
-          oPlzEditInput.setValueStateText("Bitte geben eine gültige Postleitzahl ein.");
-        } else {
-          oPlzEditInput.setValueState("None");
-        }
-
+      if (oPasswordEditInput.getValue().length === 0 && oPasswordConfirmEditInput.getValue().length === 0) {
+        oPasswordEditInput.setValueState("None");
+        oPasswordConfirmEditInput.setValueState("None");
+      } else {
         if (oPasswordEditInput.getValue().length < 6) {
           bValidEdit = false;
           oPasswordEditInput.setValueState("Error");
@@ -71,15 +70,28 @@ sap.ui.require([
           oPasswordConfirmEditInput.setValueState("Error");
           oPasswordConfirmEditInput.setValueStateText("Die Passwörter müssen übereinstimmen!");
         } else {
-          oPasswordEditInput.setValueState("None");
+          oPasswordConfirmEditInput.setValueState("None");
         }
+      }
 
-        if (bValidEdit) {
+      if (bValidEdit) {
+        var requestBody = {
+          password: oPasswordEditInput.getValue(),
+          firstName: oVornameEditInput.getValue(),
+          lastName: oNachnameEditInput.getValue(),
+          address: {
+            street: oStreetEditInput.getValue(),
+            postalCode: oPlzEditInput.getValue()
+          },
+          sessionToken: getCookie("sessionToken")
+        };
+
+        doWSRequest("user-patch", requestBody, function () {
           MessageToast.show("Profil erfolgreich gespeichert!");
           window.plz = oPlzEditInput.getValue();
           window.street = oStreetEditInput.getValue();
           window.history.back();
-        }
+        });
       }
     };
 

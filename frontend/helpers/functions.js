@@ -17,6 +17,10 @@ function doWSRequest(action, data = {}, handleSuccessResponse = function () {}) 
       wsMethod = "GET";
       wsEndpoint = "/user-service/v1/users/" + getCookie("userId");
       break;
+    case "user-patch":
+      wsMethod = "PATCH";
+      wsEndpoint = "/user-service/v1/users/" + getCookie("userId");
+      break;
     case "order-create":
       wsMethod = "PUT";
       wsEndpoint = "/order-service/v1/orders";
