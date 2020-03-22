@@ -3,7 +3,6 @@ sap.ui.getCore().attachInit(function () {
     "sap/m/App",
     "sap/ui/model/json/JSONModel"
   ], function (App, JSONModel) {
-    window.location.hash = "";
     oGlobalEventBus.publish("create-loginPage");
     var oApp = new App({
       pages: [
@@ -16,7 +15,7 @@ sap.ui.getCore().attachInit(function () {
 
     oApp.placeAt("content");
 
-    window.addEventListener("hashchange", function () {
+    var onHashChange = function () {
       var mPages = {
         "#Menue": "mainMenuPage",
         "#ListeErstellen": "createListPage",
@@ -97,9 +96,11 @@ sap.ui.getCore().attachInit(function () {
             products: [],
             type: "",
             neededTill: "",
-            price: ""
+            price: "",
+            title: "Neue Einkaufsliste erstellen"
           }));
         } else {
+          window.oItemContext.title = "Einkaufsliste editieren"
           oPage.setModel(new JSONModel(JSON.parse(JSON.stringify(window.oItemContext))));
         }
       } else if (window.location.hash === "#Menue") {
@@ -113,6 +114,12 @@ sap.ui.getCore().attachInit(function () {
         oApp.addPage(oPage);
       }
       oApp.to(sId);
-    }, false);
+    };
+
+    if (window.location.hash.length) {
+      onHashChange();
+    }
+
+    window.addEventListener("hashchange", onHashChange, false);
   });
 });
