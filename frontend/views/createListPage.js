@@ -66,7 +66,8 @@ sap.ui.require([
             };
           }),
           latestDeliveryWished: oModel.getProperty("/neededTill"),
-          sessionToken: getCookie("sessionToken")
+          sessionToken: getCookie("sessionToken"),
+          userId: getCookie("userId")
         };
 
         doWSRequest("order-create", order, function (res) {
