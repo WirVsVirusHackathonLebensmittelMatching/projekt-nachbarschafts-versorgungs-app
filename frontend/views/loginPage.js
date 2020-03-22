@@ -73,13 +73,16 @@ sap.ui.require([
           data.lastName = oNachnameInput.getValue();
           data.password = oPasswordInput.getValue();
           data.mailAddress = oEmailInput.getValue();
-		  
-          doWSRequest("user-register",data);
-		  
-          MessageToast.show("Registrierungsmail wurde verschickt!");
-          oVornameInput.setVisible(false);
-          oNachnameInput.setVisible(false);
-          oPasswordConfirmInput.setVisible(false);
+
+          const registerSuccessHandler = function (response) {
+            setCookie("userId", response.userId);
+            MessageToast.show("Registrierungsmail wurde verschickt!");
+            oVornameInput.setVisible(false);
+            oNachnameInput.setVisible(false);
+            oPasswordConfirmInput.setVisible(false);
+          };
+
+          doWSRequest("user-register", data, registerSuccessHandler);
         }
       }
     };
@@ -106,16 +109,20 @@ sap.ui.require([
       }
 
       if (bValid) {
-		var data = {};
-
+		    var data = {};
         data.password = oPasswordInput.getValue();
         data.mailAddress = oEmailInput.getValue();
-		
-		// !!! shortcut for current development, comment next line out, inorder to re-enable checks !!!
+
+        const loginSuccessHandler = function (response) {
+          setCookie("userId", response.userId);
+          setCookie("sessionToken", response.sessionToken);
+        };
+
+        doWSRequest("user-login", data, loginSuccessHandler);
+
+        // Only for development. But this line into the loginSuccessHandler
         window.location.hash = "#Menue";
-        // !!! shortcut for current development, comment previous line out, inorder to re-enable checks !!!
-		
-        doWSRequest("user-login",data);
+
       }
     };
 

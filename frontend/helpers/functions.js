@@ -1,4 +1,4 @@
-function doWSRequest(action, data = {}, handleResponse = () => {
+function doWSRequest(action, data = {}, handleSuccessResponse = () => {
 }) {
 
   var wsMethod = "";
@@ -42,17 +42,19 @@ function doWSRequest(action, data = {}, handleResponse = () => {
 
       var parsedResponse = JSON.parse(xhr.response);
       console.log("Successful request!");
+      handleSuccessResponse(parsedResponse);
 
       switch (action) {
         case "user-register":
           setCookie("userId", parsedResponse.userId);
+          handleSuccessResponse(parsedResponse);
           return true;
         case "user-login":
           setCookie("userId", parsedResponse.userId);
           setCookie("sessionToken", parsedResponse.sessionToken);
           return true;
         default:
-          handleResponse(parsedResponse);
+          handleSuccessResponse(parsedResponse);
           break;
       }
     };
@@ -73,10 +75,10 @@ function getCookie(cname) {
   var ca = document.cookie.split(';');
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0) == ' ') {
+    while (c.charAt(0) === ' ') {
       c = c.substring(1);
     }
-    if (c.indexOf(name) == 0) {
+    if (c.indexOf(name) === 0) {
       return c.substring(name.length, c.length);
     }
   }
