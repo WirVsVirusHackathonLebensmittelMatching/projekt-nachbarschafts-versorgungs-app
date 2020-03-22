@@ -74,9 +74,7 @@ sap.ui.require([
           data.password = oPasswordInput.getValue();
           data.mailAddress = oEmailInput.getValue();
 		  
-          if(!doWSRequest("user-register",data)) {
-			  console.log("webservice register failed");
-		  }
+          doWSRequest("user-register",data);
 		  
           MessageToast.show("Registrierungsmail wurde verschickt!");
           oVornameInput.setVisible(false);
@@ -117,9 +115,7 @@ sap.ui.require([
         window.location.hash = "#Menue";
         // !!! shortcut for current development, comment previous line out, inorder to re-enable checks !!!
 		
-        if(!doWSRequest("user-login",data)) {
-			console.log("webservice login failed");
-		}
+        doWSRequest("user-login",data);
       }
     };
 
