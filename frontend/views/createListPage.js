@@ -52,7 +52,9 @@ sap.ui.require([
         products: oModel.getProperty("/products"),
         own: true
       });
-      doWSRequest("order-create", {}, (res) => {console.log("Test Response " + JSON.stringify(res))});
+      doWSRequest("order-create", {}, function (res) {
+        console.log("Test Response " + JSON.stringify(res))
+      });
       MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
       window.history.back();
     };
