@@ -1,4 +1,3 @@
-
 sap.ui.require([
   "sap/m/Button",
   "sap/m/Input",
@@ -69,14 +68,14 @@ sap.ui.require([
 
         if (bValid) {
           var data = {};
-		  
+
           data.firstName = oVornameInput.getValue();
           data.lastName = oNachnameInput.getValue();
           data.password = oPasswordInput.getValue();
           data.mailAddress = oEmailInput.getValue();
-		  
+
           doWSRequest("user-register",data);
-		  
+
           MessageToast.show("Registrierungsmail wurde verschickt!");
           oVornameInput.setVisible(false);
           oNachnameInput.setVisible(false);
@@ -112,13 +111,13 @@ sap.ui.require([
 
       if (bValid) {
 		var data = {};
-		  
+
         data.password = oPasswordInput.getValue();
         data.mailAddress = oEmailInput.getValue();
-		
+
         doWSRequest("user-login",data);
       }
-    }
+    };
 
     // - View -
 
