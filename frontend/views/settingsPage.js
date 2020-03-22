@@ -172,12 +172,7 @@ sap.ui.require([
       ]
     });
 	
-	var responeJSON = {};
-	if(!responeJSON = JSON.parse(doWSRequest("user-profile"))) {
-		console.log("webservice get user data failed");
-	}
-	else {
+	var responeJSON = JSON.parse(doWSRequest("user-profile"));
 
-	}
   });
 });
