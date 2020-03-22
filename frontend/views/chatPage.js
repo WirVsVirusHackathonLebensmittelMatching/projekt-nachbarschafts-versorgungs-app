@@ -30,6 +30,7 @@ sap.ui.require([
 
     var oChatWindowInput = new TextArea({
       id: "chatAreatInput",
+	  enabled: false,
 	  height: "80vh",
       maxLength: 30,
       width: "18rem"
