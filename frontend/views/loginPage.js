@@ -75,7 +75,9 @@ sap.ui.require([
           data.password = oPasswordInput.getValue();
           data.mailAddress = oEmailInput.getValue();
 		  
-          doWSRequest("user-register",data);
+          if(!doWSRequest("user-register",data)) {
+			  console.log("webservice register failed");
+		  }
 		  
           MessageToast.show("Registrierungsmail wurde verschickt!");
           oVornameInput.setVisible(false);
@@ -86,10 +88,6 @@ sap.ui.require([
     };
 
     var handleLoginPress = function () {
-      // !!! shortcut for current development, comment next two lines out, inorder to re-enable checks !!!
-      window.location.hash = "#Menue";
-      return;
-      // !!! shortcut for current development, comment previous two lines out, inorder to re-enable checks !!!
       var oEmailInput = sap.ui.getCore().byId("emailInput"),
         oPasswordInput = sap.ui.getCore().byId("passwordInput"),
         bValid = true;
@@ -116,7 +114,13 @@ sap.ui.require([
         data.password = oPasswordInput.getValue();
         data.mailAddress = oEmailInput.getValue();
 		
-        doWSRequest("user-login",data);
+		// !!! shortcut for current development, comment next line out, inorder to re-enable checks !!!
+        window.location.hash = "#Menue";
+        // !!! shortcut for current development, comment previous line out, inorder to re-enable checks !!!
+		
+        if(!doWSRequest("user-login",data)) {
+			console.log("webservice login failed");
+		}
       }
     }
 

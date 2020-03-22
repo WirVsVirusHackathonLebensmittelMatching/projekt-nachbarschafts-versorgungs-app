@@ -171,5 +171,13 @@ sap.ui.require([
         }).addStyleClass("sapUiMediumMarginTop")
       ]
     });
+	
+	var responeJSON = {};
+	if(!responeJSON = JSON.parse(doWSRequest("user-profile"))) {
+		console.log("webservice get user data failed");
+	}
+	else {
+
+	}
   });
 });
