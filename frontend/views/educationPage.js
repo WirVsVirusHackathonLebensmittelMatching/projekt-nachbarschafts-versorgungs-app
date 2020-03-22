@@ -3,9 +3,20 @@ sap.ui.require([
     "sap/m/Text",
     "sap/m/Title",
     "sap/m/VBox",
+    "sap/m/HBox",
+    "sap/ui/model/json/JSONModel",
     "sap/m/Image"
-], function (Page, Text, Title, VBox, Image) {
+], function (Page, Text, Title, VBox, HBox, JSONModel, Image) {
     oGlobalEventBus.subscribeOnce("create-educationPage", function () {
+
+        var oModel = new JSONModel({
+            phone: sap.ui.Device.system.phone
+        });
+
+        var formatterImageWidth = function (bPhone) {
+            return bPhone ? "18rem" : "auto";
+        };
+
         var sText1 = `Liebe/r Helfer/in,
 
         es ist schön zu sehen, dass so viele Menschen sich in ganz Deutschland freiwillig melden, um Bedürftige zu unterstützen.
@@ -64,30 +75,48 @@ sap.ui.require([
                             text: sText1
                         }).addStyleClass("sapUiSmallMarginBottom"),
                         new Title({
-                            text: "Wie verbreitet sich das Coronavirus?"
+                            text: "Wie verbreitet sich das Coronavirus?",
+                            titleStyle: "H3",
+                            wrapping: true,
+                            wrappingType: "Hyphenated"
                         }).addStyleClass("sapUiSmallMarginBottom"),
                         new Text({
                             text: sText2
                         }).addStyleClass("sapUiSmallMarginBottom"),
                         new Title({
-                            text: "Maßnahmen zur Eindämmung des Virus"
+                            text: "Maßnahmen zur Eindämmung des Virus",
+                            titleStyle: "H3",
+                            wrapping: true,
+                            wrappingType: "Hyphenated"
                         }).addStyleClass("sapUiSmallMarginBottom"),
                         new Text({
                             text: sText3
                         }).addStyleClass("sapUiSmallMarginBottom"),
                         new Title({
-                            text: "Exponentielles Wachstum - was ist das und warum ist es ein Problem?"
+                            text: "Exponentielles Wachstum - was ist das und warum ist es ein Problem?",
+                            titleStyle: "H3",
+                            wrapping: true,
+                            wrappingType: "Hyphenated"
                         }).addStyleClass("sapUiSmallMarginBottom"),
                         new Text({
                             text: sText4
-                        }).addStyleClass("sapUiSmallMarginBottom")
-                        // ,
-                        // new Image({
-                        //     src: "../images/nope"
-                        // })
+                        }).addStyleClass("sapUiSmallMarginBottom"),
+                        new HBox({
+                            justifyContent: "Center",
+                            items: [
+                                new Image({
+                                    id: "image",
+                                    src: "./images/ExponentiellesWachstum.png",
+                                    width: {
+                                        path: "/phone",
+                                        formatter: formatterImageWidth
+                                    }
+                                })
+                            ]
+                        })
                     ]
                 }).addStyleClass("sapUiSmallMarginTop")
             ]
-        }).addStyleClass("sapUiContentPadding");
+        }).setModel(oModel).addStyleClass("sapUiContentPadding");
     });
 });
