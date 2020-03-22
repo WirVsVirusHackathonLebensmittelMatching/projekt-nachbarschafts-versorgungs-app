@@ -6,8 +6,8 @@ sap.ui.require([
   "sap/m/library",
   "sap/m/Page",
   "sap/m/MessageToast",
-  "sap/ui/core/Icon"
-], function (Button, Input, VBox, HBox, library, Page, MessageToast, Icon) {
+  "sap/m/Image"
+], function (Button, Input, VBox, HBox, library, Page, MessageToast, Image) {
 
   oGlobalEventBus.subscribeOnce("create-loginPage", function () {
     // - Controller -
@@ -137,9 +137,9 @@ sap.ui.require([
           justifyContent: "Center",
           alignItems: "Center",
           items: [
-            new Icon({
-              src: "sap-icon://retail-store",
-              size: "3rem"
+            new Image({
+              src: "./images/HOMEPICK.png",
+              width: "10rem"
             }).addStyleClass("sapUiLargeMarginTopBottom"),
             new Input({
               id: "vornameInput",
