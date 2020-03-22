@@ -94,7 +94,7 @@ sap.ui.require([
         }
       }
 
-      if (bValidEdit && ) {
+      if (bValidEdit) {
         doWSRequest("user-patch", requestBody, function () {
           MessageToast.show("Profil erfolgreich gespeichert!");
           window.plz = oPlzEditInput.getValue();
