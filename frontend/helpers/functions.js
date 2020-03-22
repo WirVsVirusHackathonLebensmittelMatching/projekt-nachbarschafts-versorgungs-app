@@ -1,6 +1,4 @@
-function doWSRequest(action, data = {}, handleSuccessResponse = () => {
-}) {
-
+function doWSRequest(action, data = {}, handleSuccessResponse = function () {}) {
   var wsMethod = "";
   var wsUrl = "https://webservice.homepick.de";
   var wsEndpoint = "";
@@ -17,7 +15,7 @@ function doWSRequest(action, data = {}, handleSuccessResponse = () => {
       break;
     case "user-profile":
       wsMethod = "GET";
-      wsEndpoint = "/user-service/v1/users";
+      wsEndpoint = "/user-service/v1/users/" + getCookie("userId");
       break;
     case "order-create":
       wsMethod = "PUT";
@@ -37,8 +35,9 @@ function doWSRequest(action, data = {}, handleSuccessResponse = () => {
     var xhr = new XMLHttpRequest();
 
     xhr.open(wsMethod, wsUrl + wsEndpoint, true);
-    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xhr.onload = function () {
+    xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+    xhr.setRequestHeader("X-Session-Token", getCookie("sessionToken"));
+    xhr.onload = function() {
       if (xhr.readyState !== 4 || xhr.status >= 400) {
         console.log("Error in request!");
         return false;
@@ -47,39 +46,24 @@ function doWSRequest(action, data = {}, handleSuccessResponse = () => {
       var parsedResponse = JSON.parse(xhr.response);
       console.log("Successful request!");
       handleSuccessResponse(parsedResponse);
-
-      switch (action) {
-        case "user-register":
-          setCookie("userId", parsedResponse.userId);
-          handleSuccessResponse(parsedResponse);
-          return true;
-        case "user-login":
-          setCookie("userId", parsedResponse.userId);
-          setCookie("sessionToken", parsedResponse.sessionToken);
-          return true;
-        default:
-          handleSuccessResponse(parsedResponse);
-          break;
-      }
     };
     xhr.send(json);
-
   }
 }
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 function getCookie(cname) {
   var name = cname + "=";
-  var ca = document.cookie.split(';');
+  var ca = document.cookie.split(";");
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0) === ' ') {
+    while (c.charAt(0) === " ") {
       c = c.substring(1);
     }
     if (c.indexOf(name) === 0) {
