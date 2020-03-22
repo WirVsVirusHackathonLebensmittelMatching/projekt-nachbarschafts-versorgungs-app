@@ -157,17 +157,16 @@ sap.ui.require([
       }
 
       if (bValid) {
-        var data = {};
-        data.password = oPasswordInput.getValue();
-        data.mailAddress = oEmailInput.getValue();
-
         const loginSuccessHandler = function (response) {
           setCookie("userId", response.userId);
           setCookie("sessionToken", response.sessionToken);
           window.location.hash = "#Menue";
         };
 
-        doWSRequest("user-login", data, loginSuccessHandler);
+        doWSRequest("user-login", {
+          password: oPasswordInput.getValue(),
+          mailAddress: oEmailInput.getValue()
+        }, loginSuccessHandler);
       }
     };
 
