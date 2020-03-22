@@ -31,34 +31,49 @@ sap.ui.require([
 
     var handleSubmitShoppingListPress = function () {
       var oModel = sap.ui.getCore().byId("createListPage").getModel(),
-      products = oModel.getProperty("/products");
+        aProducts = oModel.getProperty("/products"),
+        sId = oModel.getProperty("/id");
 
-      window.aFakeItems.push({
-        id: Date.now(),
+      var oNewItem = {
+        id: sId || Date.now(),
         type: oModel.getProperty("/type"),
         street: "BeispielStraße",
         plz: "12345",
         city: "Berlin",
         price: oModel.getProperty("/price"),
         neededTill: oModel.getProperty("/neededTill"),
-        products: products,
+        products: aProducts,
         own: true
-      });
-
-      var order = {
-        orderedItems:
-          products.map(product => ({
-            name: product.itemName,
-            quantity: product.itemQuantity,
-            comment: product.itemComment
-          })),
-        latestDeliveryWished: oModel.getProperty("/neededTill"),
-        sessionToken: getCookie("sessionToken")
       };
 
-      doWSRequest("order-create", order, function (res) {
-        console.log("Test Response " + JSON.stringify(res))
-      });
+      if (sId) {
+        window.aFakeItems = window.aFakeItems.map(function (oItem) {
+          if (oItem.id === sId) {
+            return oNewItem;
+          }
+          return oItem
+        });
+        window.oItemContext = oNewItem;
+      } else {
+        window.aFakeItems.push(oNewItem);
+
+        var order = {
+          orderedItems: aProducts.map(function (oProduct) {
+            return {
+              name: oProduct.itemName,
+              quantity: oProduct.itemQuantity,
+              comment: oProduct.itemComment
+            };
+          }),
+          latestDeliveryWished: oModel.getProperty("/neededTill"),
+          sessionToken: getCookie("sessionToken")
+        };
+
+        doWSRequest("order-create", order, function (res) {
+          console.log("Test Response " + JSON.stringify(res))
+        });
+      }
+
       MessageToast.show("Die neue Einkaufsliste wurde erstellt.");
       window.history.back();
     };
@@ -130,6 +145,7 @@ sap.ui.require([
                   itemComment: oProductCommentInput.getValue(),
                   checked: false
                 });
+
                 oModel.setProperty("/products", aProducts);
                 oDialog.close();
               }

@@ -99,7 +99,7 @@ sap.ui.getCore().attachInit(function () {
             price: ""
           }));
         } else {
-          oPage.setModel(new JSONModel(window.oItemContext));
+          oPage.setModel(new JSONModel(JSON.parse(JSON.stringify(window.oItemContext))));
         }
       }
 
