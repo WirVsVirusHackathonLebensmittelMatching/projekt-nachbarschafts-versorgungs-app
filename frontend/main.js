@@ -25,7 +25,7 @@ sap.ui.getCore().attachInit(function () {
         "#Selbstschutz": "educationPage",
         "#Einstellungen": "settingsPage",
         "#EinkaufsItem": "einkaufsItemPage",
-		"#Chat": "chatPage"
+        "#Chat": "chatPage"
       }
 
       var sId = mPages[window.location.hash] || "loginPage";
@@ -102,6 +102,10 @@ sap.ui.getCore().attachInit(function () {
         } else {
           oPage.setModel(new JSONModel(JSON.parse(JSON.stringify(window.oItemContext))));
         }
+      } else if (window.location.hash === "#Menue") {
+        oPage.setModel(new JSONModel({
+          plz: window.plz
+        }));
       }
 
       if (oApp.indexOfPage(oPage) === -1) {

@@ -15,6 +15,7 @@ sap.ui.require([
         oNachnameEditInput = sap.ui.getCore().byId("nachnameEditInput"),
         oEmailEditInput = sap.ui.getCore().byId("emailEditInput"),
         oPasswordEditInput = sap.ui.getCore().byId("passwordEditInput"),
+        oStreetEditInput = sap.ui.getCore().byId("streetEditInput"),
         oPasswordConfirmEditInput = sap.ui.getCore().byId("passwordConfirmEditInput");
 
       if (!oVornameEditInput.getVisible()) {
@@ -48,7 +49,7 @@ sap.ui.require([
           oEmailEditInput.setValueState("None");
         }
 
-        if (oPlzEditInput.getValue().length < 4 && oPlzEditInput.getValue().isInteger != true) {
+        if (oPlzEditInput.getValue().length < 4 || isNaN(parseInt(oPlzEditInput.getValue(), 10))) {
           bValidEdit = false;
           oPlzEditInput.setValueState("Error");
           oPlzEditInput.setValueStateText("Bitte geben eine gültige Postleitzahl ein.");
@@ -74,7 +75,9 @@ sap.ui.require([
 
         if (bValidEdit) {
           MessageToast.show("Profil erfolgreich gespeichert!");
-          window.location.hash = "#Menue";
+          window.plz = oPlzEditInput.getValue();
+          window.street = oStreetEditInput.getValue();
+          window.history.back();
         }
       }
     };
@@ -105,6 +108,13 @@ sap.ui.require([
       id: "plzEditInput",
       maxLength: 5,
       placeholder: "Postleitzahl",
+      width: "18rem"
+    });
+
+    var oSteetEditInput = new Input({
+      id: "streetEditInput",
+      maxLength: 30,
+      placeholder: "Straße",
       width: "18rem"
     });
 
@@ -162,6 +172,7 @@ sap.ui.require([
             oNachnameEditInput,
             oEmailEditInput,
             oPlzEditInput,
+            oSteetEditInput,
             oPasswordEditInput,
             opasswordConfirmEditInput,
             // oSellerEditInput,

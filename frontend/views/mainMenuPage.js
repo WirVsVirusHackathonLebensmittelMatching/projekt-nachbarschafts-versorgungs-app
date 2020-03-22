@@ -3,8 +3,9 @@
 sap.ui.require([
   "sap/m/Page",
   "sap/m/Button",
-  "sap/m/VBox"
-], function (Page, Button, VBox) {
+  "sap/m/VBox",
+  "sap/m/MessageStrip"
+], function (Page, Button, VBox, MessageStrip) {
   oGlobalEventBus.subscribeOnce("create-mainMenuPage", function () {
     // - Controller -
 
@@ -39,6 +40,20 @@ sap.ui.require([
       title: "Übersichtsmenü",
       titleAlignment: "Center",
       content: [
+        new MessageStrip({
+          visible: {
+            parts: [
+              "/plz",
+              "/street"
+            ],
+            formatter: function (sPLZ, sStreet) {
+              return !sPLZ.length || !sStreet.length;
+            }
+          },
+          type: "Warning",
+          showIcon: true,
+          text: "Hinweis: Um alle Funktionen zu benutzen wird eine Postleitzahl benötigt. Diese kann in den Einstellungen eingetragen werden."
+        }).addStyleClass("sapUiTinyMarginTopBottom sapUiSmallMarginBeginEnd"),
         new VBox({
           justifyContent: "Center",
           alignItems: "Center",
@@ -48,13 +63,31 @@ sap.ui.require([
               text: "Eine neue Einkaufliste erstellen",
               icon: "sap-icon://add-activity-2",
               width: "18rem",
+              enabled: {
+                parts: [
+                  "/plz",
+                  "/street"
+                ],
+                formatter: function (sPLZ, sStreet) {
+                  return !!sPLZ.length && !!sStreet.length;
+                }
+              },
               press: handleCreateShoppingListPress
-            }).addStyleClass("sapUiSmallMarginTop"),
+            }).addStyleClass("sapUiTinyMarginTop"),
             new Button({
               id: "viewShoppingListsButton",
               text: "Offene Einkaufslisten anzeigen",
               icon: "sap-icon://show-edit",
               width: "18rem",
+              enabled: {
+                parts: [
+                  "/plz",
+                  "/street"
+                ],
+                formatter: function (sPLZ, sStreet) {
+                  return !!sPLZ.length && !!sStreet.length;
+                }
+              },
               press: handleClickShoppingListsButton
             }).addStyleClass("sapUiSmallMarginTop"),
             new Button({
@@ -62,6 +95,15 @@ sap.ui.require([
               text: "Meine Einkaufslisten anzeigen",
               icon: "sap-icon://activity-individual",
               width: "18rem",
+              enabled: {
+                parts: [
+                  "/plz",
+                  "/street"
+                ],
+                formatter: function (sPLZ, sStreet) {
+                  return !!sPLZ.length && !!sStreet.length;
+                }
+              },
               press: handleClickMyShoppingListsButton
             }).addStyleClass("sapUiSmallMarginTop"),
             new Button({

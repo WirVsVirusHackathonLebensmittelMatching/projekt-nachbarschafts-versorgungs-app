@@ -56,10 +56,9 @@ sap.ui.require([
         "In dem Artikel geht um eine Legende, in der der Erfinder des Schachspiels eine Belohnung vom König Indiens bekommen soll. "+
 		"Er wünscht sich 1 Reiskorn auf dem ersten Feld eines Schachbretts und auf jedes weitere Feld sollen doppelt so viele Reiskörner wie auf das vorherige Feld gelegt werden. \n\n"+
 
-        "Wie viele Reiskörner es für die 64 Felder werden? 18 Trillionen bzw. 500 Milliarden Tonnen.\n\n"+
-
         "Darum ist es wichtig, dass jeder sein Bestes gibt, um die Ausbreitung zu verlangsamen.\n"+
         "Das ist zum Glück durch die oben genannten Maßnahmen einfacher, als man es vermutet. Die Tabelle unten zeigt, was man allein durch eine reduktion der Sozialkontakte erreichen kann.";
+		
         return new Page({
             id: "educationPage",
             title: "Informationen zum Sebstschutz und Schutz von Anderen",

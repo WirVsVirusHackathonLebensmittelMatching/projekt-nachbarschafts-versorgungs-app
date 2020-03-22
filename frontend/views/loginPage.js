@@ -164,7 +164,7 @@ sap.ui.require([
       }
 
       if (bValid) {
-		    var data = {};
+        var data = {};
         data.password = oPasswordInput.getValue();
         data.mailAddress = oEmailInput.getValue();
 
