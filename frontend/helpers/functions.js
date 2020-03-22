@@ -1,6 +1,6 @@
 function doWSRequest(action, data = {} ) {
 	
-	var wsMethod = "POST";
+	var wsMethod = "";
 	var wsUrl = "https://webservice.homepick.de";
 	var wsEndpoint = "";
 	var wsResponse = "";
