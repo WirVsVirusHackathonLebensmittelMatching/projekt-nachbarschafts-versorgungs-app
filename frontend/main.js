@@ -88,7 +88,7 @@ sap.ui.getCore().attachInit(function () {
           window.history.back();
           return;
         } else {
-          oPage.setModel(window.oItemContext);
+          oPage.setModel(new JSONModel(window.oItemContext));
         }
       }
 

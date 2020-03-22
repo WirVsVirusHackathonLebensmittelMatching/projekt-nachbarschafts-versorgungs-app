@@ -45,8 +45,8 @@ sap.ui.require([
     var itemFactory = function (sId) {
       return new StandardListItem({
         id: sId,
-        title: "{itemTitle}",
-        counter: "{itemCount}",
+        title: "{itemName}",
+        counter: "{itemQuantity}",
         type: "Active",
         iconInset: false,
         icon: {
