@@ -58,28 +58,29 @@ sap.ui.require([
         },
         content: [
             new VBox({
+                justifyContent: "SpaceBetween",
                 items: [
                     new Text({
                         text: sText1
-                    }),
+                    }).addStyleClass("sapUiSmallMarginBottom"),
                     new Title({
                         text: "Wie verbreitet sich das Coronavirus?"
-                    }),
+                    }).addStyleClass("sapUiSmallMarginBottom"),
                     new Text({
                         text: sText2
-                    }),
+                    }).addStyleClass("sapUiSmallMarginBottom"),
                     new Title({
                         text: "Maßnahmen zur Eindämmung des Virus"
-                    }),
+                    }).addStyleClass("sapUiSmallMarginBottom"),
                     new Text({
                         text: sText3
-                    }),
+                    }).addStyleClass("sapUiSmallMarginBottom"),
                     new Title({
                         text: "Exponentielles Wachstum - was ist das und warum ist es ein Problem?"
-                    }),
+                    }).addStyleClass("sapUiSmallMarginBottom"),
                     new Text({
                         text: sText4
-                    })
+                    }).addStyleClass("sapUiSmallMarginBottom")
                     // ,
                     // new Image({
                     //     src: "../images/nope"
@@ -87,5 +88,5 @@ sap.ui.require([
                 ]
             }).addStyleClass("sapUiSmallMarginTop")
         ]
-    });
+    }).addStyleClass("sapUiContentPadding");
 });
