@@ -31,6 +31,8 @@ sap.ui.require([
     };
 
     var handleClickLogoutButton = function () {
+      deleteCookie("userId");
+      deleteCookie("sessionToken");
       window.location.hash = "";
     };
 
