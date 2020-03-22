@@ -102,6 +102,10 @@ sap.ui.getCore().attachInit(function () {
         } else {
           oPage.setModel(new JSONModel(JSON.parse(JSON.stringify(window.oItemContext))));
         }
+      } else if (window.location.hash === "#Menue") {
+        oPage.setModel(new JSONModel({
+          plz: window.plz
+        }));
       }
 
       if (oApp.indexOfPage(oPage) === -1) {

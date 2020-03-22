@@ -63,3 +63,4 @@ window.aFakeItems = [
     products: []
   }
 ];
+window.plz = "";

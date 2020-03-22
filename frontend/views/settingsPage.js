@@ -48,7 +48,7 @@ sap.ui.require([
           oEmailEditInput.setValueState("None");
         }
 
-        if (oPlzEditInput.getValue().length < 4 && oPlzEditInput.getValue().isInteger != true) {
+        if (oPlzEditInput.getValue().length < 4 || isNaN(parseInt(oPlzEditInput.getValue(), 10))) {
           bValidEdit = false;
           oPlzEditInput.setValueState("Error");
           oPlzEditInput.setValueStateText("Bitte geben eine gültige Postleitzahl ein.");
@@ -74,7 +74,8 @@ sap.ui.require([
 
         if (bValidEdit) {
           MessageToast.show("Profil erfolgreich gespeichert!");
-          window.location.hash = "#Menue";
+          window.plz = oPlzEditInput.getValue();
+          window.history.back();
         }
       }
     };
