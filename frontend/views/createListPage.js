@@ -28,6 +28,7 @@ sap.ui.require([
   oGlobalEventBus.subscribeOnce("create-createListPage", function () {
 
     // - Controller -
+    var oBindingContext = null;
 
     var handleSubmitShoppingListPress = function () {
       var oModel = sap.ui.getCore().byId("createListPage").getModel(),
@@ -82,12 +83,7 @@ sap.ui.require([
     var handleAddItemPress = function () {
       var oDialog = sap.ui.getCore().byId("createProductDialog");
 
-      if (oDialog) {
-        oProductNameInput = sap.ui.getCore().byId("productNameInput").setValue("");
-        oProductCounterInput = sap.ui.getCore().byId("productCounterInput").setValue("");
-        oProductCommentInput = sap.ui.getCore().byId("productCommentInput").setValue("");
-        oDialog.open();
-      } else {
+      if (!oDialog) {
         oDialog = new Dialog({
           id: "createProductDialog",
           title: "Produkt Hinzufügen",
@@ -111,8 +107,8 @@ sap.ui.require([
           ],
           beginButton: new Button({
             id: "addProductDialogButton",
-            icon: "sap-icon://add",
             text: "Hinzufügen",
+            type: "Emphasized",
             press: function () {
               var oProductNameInput = sap.ui.getCore().byId("productNameInput"),
                 oProductCounterInput = sap.ui.getCore().byId("productCounterInput"),
@@ -137,17 +133,28 @@ sap.ui.require([
               }
 
               if (bValid) {
-                var oModel = sap.ui.getCore().byId("createListPage").getModel(),
-                  aProducts = oModel.getProperty("/products");
+                if (oBindingContext) {
+                  oBindingContext.getModel().setProperty(oBindingContext.getPath(), {
+                    itemName: oProductNameInput.getValue(),
+                    itemQuantity: iCounter,
+                    itemComment: oProductCommentInput.getValue(),
+                    checked: oBindingContext.getObject().checked
+                  });
+                  oBindingContext = null;
+                } else {
+                  var oModel = sap.ui.getCore().byId("createListPage").getModel(),
+                    aProducts = oModel.getProperty("/products");
 
-                aProducts.push({
-                  itemName: oProductNameInput.getValue(),
-                  itemQuantity: iCounter,
-                  itemComment: oProductCommentInput.getValue(),
-                  checked: false
-                });
+                  aProducts.push({
+                    itemName: oProductNameInput.getValue(),
+                    itemQuantity: iCounter,
+                    itemComment: oProductCommentInput.getValue(),
+                    checked: false
+                  });
 
-                oModel.setProperty("/products", aProducts);
+                  oModel.setProperty("/products", aProducts);
+                }
+
                 oDialog.close();
               }
             }
@@ -155,13 +162,39 @@ sap.ui.require([
           endButton: new Button({
             text: "Abbrechen",
             press: function () {
+              oBindingContext = null;
               oDialog.close();
             }
           })
         });
+      }
+
+      var pNI = sap.ui.getCore().byId("productNameInput"),
+          pCI = sap.ui.getCore().byId("productCounterInput"),
+          pCI2 = sap.ui.getCore().byId("productCommentInput");
+
+        if (oBindingContext) {
+          var oContextObject = oBindingContext.getObject();
+          oProductNameInput = pNI.setValue(oContextObject.itemName);
+          oProductCounterInput = pCI.setValue(oContextObject.itemQuantity);
+          oProductCommentInput = pCI2.setValue(oContextObject.itemComment);
+          oDialog.setTitle("Produkt Editieren");
+          sap.ui.getCore().byId("addProductDialogButton").setText("Editieren");
+          bCalledInContext = true;
+        } else {
+          oProductNameInput = pNI.setValue("");
+          oProductCounterInput = pCI.setValue("");
+          oProductCommentInput = pCI2.setValue("");
+          oDialog.setTitle("Produkt Hinzufügen");
+          sap.ui.getCore().byId("addProductDialogButton").setText("Hinzufügen");
+        }
 
         oDialog.open();
-      }
+    };
+
+    var onItemPress = function (oEvent) {
+      oBindingContext = oEvent.getParameter("listItem").getBindingContext();
+      handleAddItemPress();
     };
 
     // - View -
@@ -181,12 +214,14 @@ sap.ui.require([
         new List({
           id: "createList",
           noDataText: "Bitte fügen Sie Produkte zu Ihrer Einkaufsliste hinzu.",
+          itemPress: onItemPress,
           items: {
             path: "/products",
             template: new StandardListItem({
               title: "{itemName}",
               description: "{itemComment}",
-              counter: "{itemQuantity}"
+              counter: "{itemQuantity}",
+              type: "Active"
             })
           },
         }).addStyleClass("sapUiSmallMarginBottom"),
