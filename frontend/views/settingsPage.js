@@ -20,6 +20,7 @@ sap.ui.require([
         oPasswordConfirmEditInput = sap.ui.getCore().byId("passwordConfirmEditInput");
 
       var bValidEdit = true;
+      var requestBody = {};
 
       if (oVornameEditInput.getValue().length < 3) {
         bValidEdit = false;
@@ -56,7 +57,26 @@ sap.ui.require([
       if (oPasswordEditInput.getValue().length === 0 && oPasswordConfirmEditInput.getValue().length === 0) {
         oPasswordEditInput.setValueState("None");
         oPasswordConfirmEditInput.setValueState("None");
+        requestBody = {
+          firstName: oVornameEditInput.getValue(),
+          lastName: oNachnameEditInput.getValue(),
+          address: {
+            street: oStreetEditInput.getValue(),
+            postalCode: oPlzEditInput.getValue()
+          },
+          sessionToken: getCookie("sessionToken")
+        };
       } else {
+          requestBody = {
+          password: oPasswordEditInput.getValue(),
+          firstName: oVornameEditInput.getValue(),
+          lastName: oNachnameEditInput.getValue(),
+          address: {
+            street: oStreetEditInput.getValue(),
+            postalCode: oPlzEditInput.getValue()
+          },
+          sessionToken: getCookie("sessionToken")
+        };
         if (oPasswordEditInput.getValue().length < 6) {
           bValidEdit = false;
           oPasswordEditInput.setValueState("Error");
@@ -74,18 +94,7 @@ sap.ui.require([
         }
       }
 
-      if (bValidEdit) {
-        var requestBody = {
-          password: oPasswordEditInput.getValue(),
-          firstName: oVornameEditInput.getValue(),
-          lastName: oNachnameEditInput.getValue(),
-          address: {
-            street: oStreetEditInput.getValue(),
-            postalCode: oPlzEditInput.getValue()
-          },
-          sessionToken: getCookie("sessionToken")
-        };
-
+      if (bValidEdit && ) {
         doWSRequest("user-patch", requestBody, function () {
           MessageToast.show("Profil erfolgreich gespeichert!");
           window.plz = oPlzEditInput.getValue();
