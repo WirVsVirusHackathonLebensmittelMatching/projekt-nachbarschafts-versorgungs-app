@@ -16,8 +16,7 @@ sap.ui.require([
   "sap/m/ObjectAttribute",
   "sap/m/ObjectStatus",
   "sap/ui/layout/HorizontalLayout",
-  "sap/ui/layout/VerticalLayout",
-  "sap/ui/model/json/JSONModel"
+  "sap/ui/layout/VerticalLayout"
 ], function (
   DynamicPage,
   DynamicPageTitle,
@@ -36,39 +35,9 @@ sap.ui.require([
   ObjectAttribute,
   ObjectStatus,
   HorizontalLayout,
-  VerticalLayout,
-  JSONModel
+  VerticalLayout
 ) {
   oGlobalEventBus.subscribeOnce("create-einkaufsItemPage", function () {
-    var oModel = new JSONModel({
-      items: [
-        {
-          itemCount: 3,
-          itemTitle: "Milch",
-          itemComment: "3,5% Fett",
-          checked: false
-        },
-        {
-          itemCount: 1,
-          itemTitle: "Brot",
-          itemComment: "Geschnitten und ohne Körner",
-          checked: false
-        },
-        {
-          itemCount: 1,
-          itemTitle: "Nussnugat Creame",
-          itemComment: "",
-          checked: false
-        },
-        {
-          itemCount: 2,
-          itemTitle: "Orangensaft",
-          itemComment: "nur wenn er im Angebot ist!",
-          checked: false
-        }
-      ]
-    });
-
     var iconFormatter = function (bChecked) {
       return bChecked ? "sap-icon://accept" : "sap-icon://circle-task";
     };
@@ -97,7 +66,7 @@ sap.ui.require([
 
       oModel.setProperty(sPath + "/checked", !bChecked);
 
-      aItems = oModel.getProperty("/items").filter(function (oItem) {
+      aItems = oModel.getProperty("/products").filter(function (oItem) {
         return !oItem.checked;
       });
 
@@ -114,7 +83,7 @@ sap.ui.require([
 
     var onEndShoppingPress = function () {
       var oPage = sap.ui.getCore().byId("einkaufsItemPage"),
-        aItems = oPage.getModel().getProperty("/items");
+        aItems = oPage.getModel().getProperty("/products");
 
       var aCheckedItems = aItems.filter(function (oItem) {
         return !oItem.checked;
@@ -141,6 +110,10 @@ sap.ui.require([
 
     var onDeletePress = function () {
       MessageToast.show("Die Einkaufsliste wurde gelöscht.");
+      window.aFakeItems = window.aFakeItems.filter(function (oFakeItem) {
+        return window.oItemContext.id !== oFakeItem.id;
+      });
+      window.oItemContext = null;
       window.history.back();
     };
 
@@ -243,7 +216,7 @@ sap.ui.require([
                     id: "confirmBuying",
                     text: "Einkauf abschließen",
                     type: {
-                      path: "/items",
+                      path: "/products",
                       formatter: formatterConfirmBuying
                     },
                     press: onEndShoppingPress
@@ -254,7 +227,7 @@ sap.ui.require([
                 id: "einkaufsListe",
                 itemPress: onItemPress,
                 items: {
-                  path: "/items",
+                  path: "/products",
                   factory: itemFactory
                 }
               })
@@ -262,6 +235,6 @@ sap.ui.require([
           })
         })
       ]
-    }).setModel(oModel)
+    })
   });
 });

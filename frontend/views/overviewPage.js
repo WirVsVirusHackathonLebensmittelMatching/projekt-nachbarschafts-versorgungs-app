@@ -48,7 +48,7 @@ sap.ui.require([
       mViewSettingsFilters = null;
 
     var onItemPress = function (oEvent) {
-      // var oEinkaufsListe = oEvent.getParameter("listItem").getBindingContext().getObject();
+      window.oItemContext = oEvent.getParameter("listItem").getBindingContext().getObject();
       // window.location.hash = "#EinkaufsItem?item=" + oEinkaufsListe.itemId;
       window.location.hash = "#EinkaufsItem";
     };
