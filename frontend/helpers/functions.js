@@ -23,6 +23,10 @@ function doWSRequest(action, data = {}, handleSuccessResponse = () => {
       wsMethod = "PUT";
       wsEndpoint = "/order-service/v1/orders";
       break;
+    case "order-get":
+      wsMethod = "GET";
+      wsEndpoint = "/order-service/v1/orders";
+      break;
     default:
       exitfunction = true;
       break;
