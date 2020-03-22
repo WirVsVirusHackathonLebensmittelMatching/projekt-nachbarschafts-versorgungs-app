@@ -64,3 +64,4 @@ window.aFakeItems = [
   }
 ];
 window.plz = "";
+window.street = "";

@@ -42,9 +42,12 @@ sap.ui.require([
       content: [
         new MessageStrip({
           visible: {
-            path: "/plz",
-            formatter: function (sPLZ) {
-              return !sPLZ.length;
+            parts: [
+              "/plz",
+              "/street"
+            ],
+            formatter: function (sPLZ, sStreet) {
+              return !sPLZ.length || !sStreet.length;
             }
           },
           type: "Warning",
@@ -61,9 +64,12 @@ sap.ui.require([
               icon: "sap-icon://add-activity-2",
               width: "18rem",
               enabled: {
-                path: "/plz",
-                formatter: function (sPLZ) {
-                  return !!sPLZ.length;
+                parts: [
+                  "/plz",
+                  "/street"
+                ],
+                formatter: function (sPLZ, sStreet) {
+                  return !!sPLZ.length && !!sStreet.length;
                 }
               },
               press: handleCreateShoppingListPress
@@ -74,9 +80,12 @@ sap.ui.require([
               icon: "sap-icon://show-edit",
               width: "18rem",
               enabled: {
-                path: "/plz",
-                formatter: function (sPLZ) {
-                  return !!sPLZ.length;
+                parts: [
+                  "/plz",
+                  "/street"
+                ],
+                formatter: function (sPLZ, sStreet) {
+                  return !!sPLZ.length && !!sStreet.length;
                 }
               },
               press: handleClickShoppingListsButton
@@ -87,9 +96,12 @@ sap.ui.require([
               icon: "sap-icon://activity-individual",
               width: "18rem",
               enabled: {
-                path: "/plz",
-                formatter: function (sPLZ) {
-                  return !!sPLZ.length;
+                parts: [
+                  "/plz",
+                  "/street"
+                ],
+                formatter: function (sPLZ, sStreet) {
+                  return !!sPLZ.length && !!sStreet.length;
                 }
               },
               press: handleClickMyShoppingListsButton

@@ -37,8 +37,8 @@ sap.ui.require([
       var oNewItem = {
         id: sId || Date.now(),
         type: oModel.getProperty("/type"),
-        street: "BeispielStraße",
-        plz: "12345",
+        street: window.street || "Beispielstraße",
+        plz: window.plz || "12345",
         city: "Berlin",
         price: oModel.getProperty("/price"),
         neededTill: oModel.getProperty("/neededTill"),
