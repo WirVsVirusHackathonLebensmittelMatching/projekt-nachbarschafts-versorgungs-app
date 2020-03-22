@@ -42,7 +42,7 @@ sap.ui.getCore().attachInit(function () {
           window.setTimeout(function () {
             oPage.getModel().setProperty("/busy", false);
             oPage.getModel().setProperty("/items", window.aFakeItems.filter(function (oItem) {
-              return oItem.own;
+              return oItem.own || oItem.state !== "open";
             }));
           }, 2000);
           bLoadedOwnOnce = true;
@@ -51,7 +51,7 @@ sap.ui.getCore().attachInit(function () {
             title: "Meine Einkaufslisten",
             busy: true,
             items: window.aFakeItems.filter(function (oItem) {
-              return oItem.own;
+              return oItem.own || oItem.state !== "open";;
             }),
             own: true
           }));
@@ -69,14 +69,18 @@ sap.ui.getCore().attachInit(function () {
           }));
           window.setTimeout(function () {
             oPage.getModel().setProperty("/busy", false);
-            oPage.getModel().setProperty("/items", aFakeItems);
+            oPage.getModel().setProperty("/items", window.aFakeItems.filter(function (oItem) {
+              return oItem.state === "open";
+            }));
           }, 2000);
           bLoadedAllOnce = true;
         } else {
           oPage.setModel(new JSONModel({
             title: "Offene Einkaufslisten",
             busy: true,
-            items: aFakeItems,
+            items: window.aFakeItems.filter(function (oItem) {
+              return oItem.state === "open";
+            }),
             own: false
           }));
           window.setTimeout(function () {
